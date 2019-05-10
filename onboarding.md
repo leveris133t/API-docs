@@ -44,8 +44,6 @@ The **front-end application** must to follow the *`Process definition`* in order
 
 The *`Process definition`* can also depend on the type of **front-end application** (web or mobile) that the onboarding is started from.
 
-![How to use the service](onboarding-how-to-use-the-service.png)
-
 Don't know what this is:
  `/process-definitions`.
 `ProcessChannel` .
@@ -71,7 +69,7 @@ This will return the next onboarding step or notify the application that the pro
 
 On occasion, `/processes/{idProcess}/!executeCurrentStep` will not need to be called as the execution has been performed by the server. This depends on the specific step type.
 
-
+![How to use the service](onboarding-how-to-use-the-service.png)
 
 
   in `/Onboarding - public part` API, and call  endpoint.
