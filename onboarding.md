@@ -44,6 +44,8 @@ The **front-end application** must to follow the *`Process definition`* in order
 
 The *`Process definition`* can also depend on the type of **front-end application** (web or mobile) that the onboarding is started from.
 
+![How to use the service](onboarding-how-to-use-the-service.png)
+
 Don't know what this is:
  `/process-definitions`.
 `ProcessChannel` .
