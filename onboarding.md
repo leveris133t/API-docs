@@ -21,7 +21,7 @@ Based on the **Party** data collected, the onboarding process will verify:
 
 The process also:
 * Facilitates **Recapturing party data** in case a verification has failed
-* **Activate a user account** when the *`Party`* has sufficient detail. This allows the user's to access further client services
+* **Activate a user account** when the *`Party`* has sufficient detail. This allows the user to access further banking services
 
 **RADIM RADIM RADIM - TO CLEAR UP**
 
@@ -89,7 +89,7 @@ The codes can be:
 
 #### Application steps
 
-Based on the back-end configuration, the front-end application may have to create a certain type of default product for the user. For further information please look at the [deposit API](mw-gen-deposit-ib.html.md).
+Based on the back-end configuration, the front-end application may have to create a certain type of default product (e.g. a current account) for the user. For further information please look at the [deposit API](mw-gen-deposit-ib.html.md).
 
 ### User activation and public and private endpoints
 
@@ -101,7 +101,7 @@ Activation will occur when the *`Authentication token`* is returned in a call to
 
 Before this point, all URLs must use the `/public/` endpoints. Afterwards, all URLs must use the `/private/` endpoints and pass in the *`Authentication token`* in the headers.
 
-The account can be activated by the server at any stage after the user's authentication credentials are captured. This point can be configured on the system.
+The account can be activated by the server at any stage after the user's authentication credentials are captured. This stage can be configured on the system.
 
 ### Back-end notifications
 
@@ -115,7 +115,7 @@ When either of the above happens, an `IB_ONBOARDING_PROCESS_CHANGED` event is se
 
 As the back-end processes the submitted onboarding data, various checks will occur.
 
-When a check fails, the back-end can require further information from the user. This is done by creating a separate process such that the original onboarding process remains unchanged. This can only occur after the *`Authentication token`* has been issued.
+When a check fails, the back-end will require further information from the user. This is done by creating a separate process such that the original onboarding process remains unchanged. This can only occur after the *`Authentication token`* has been issued.
 
 To get the list of processes, call `private/processes/!list`. Each process has a defined `priority` attribute which determines which process to complete first. The lowest `priority` value should be completed first i.e. 0 is more important than 1.
 
