@@ -20,7 +20,7 @@ Based on the **Party** data collected, the onboarding process will verify:
 * **Identity and address documentation** with **KYC** and **AML** checks to satisfy compliance requirements
 
 The process also:
-* Facilitates **Recapturing party data** in case a verification has failed
+* Facilitates **recapturing party data** in case a verification has failed
 * **Activate a user account** when the *`Party`* has sufficient detail. This allows the user's to access further client services
 
 **RADIM RADIM RADIM**
@@ -81,8 +81,8 @@ The account can be activated by the server at any stage after the user's authent
 
 ** RADIM RADIM RADIM **
 
-After execution of some specific types of steps We can starts one or more complementary processes on background. In order or get list of processes We recommend you to call `/processes/!list` endpoint in `/Onboarding - private part` after every execution of "private" step. Every process has defined `priority` field which determines a processing order of the processes.
+After execution of some specific types of steps we can start one or more complementary processes on background. In order to get list of processes we recommend you to call `/processes/!list` endpoint in `/Onboarding - private part` after every execution of "private" step. Every process has defined a `priority` attribute which defines the order of the processes, where the process with the lowest priority number will be the first.
 
-Some types of steps can have more complex flow to execute, see `steps[].stepType` field in `/process-definitions` resource and require some step type specific calls before its execution e.g. `Device setup` API.
+Some types of steps can have more complex flow to follow before they call the `execute`, see `steps[].stepType` attribute in `/process-definitions` resource and require some step type specific calls before its execution e.g. `Device setup` API.
 
 Some of them are triggered and executed asynchronously on the Back-end so We provides Consumers application with Event about changes in process  - `IB_ONBOARDING_PROCESS_CHANGED` event (see [Asynchronous Communication service](mw-gen-asynccomm-ib.md) to get more information).
