@@ -20,10 +20,10 @@ Based on the **Party** data collected, the onboarding process will verify:
 * **Identity and address documentation** with **KYC** and **AML** checks to satisfy compliance requirements
 
 The process also:
-* Facilitates **recapturing party data** in case a verification has failed
+* Facilitates **Recapturing party data** in case a verification has failed
 * **Activate a user account** when the *`Party`* has sufficient detail. This allows the user's to access further client services
 
-**RADIM RADIM RADIM**
+**RADIM RADIM RADIM - TO CLEAR UP**
 
 Don't know what this is:
 * Defined *`Product applications`* and *`Pricing schemas`* are ready to be used and setup by the Customer.
@@ -31,9 +31,6 @@ Don't know what this is:
 What does 'ready' mean in this case
 
 **RADIM RADIM RADIM**
-
-
-
 
 ## How to use the service
 
@@ -65,6 +62,35 @@ On occasion, `/processes/{idProcess}/!executeCurrentStep` will not need to be ca
 
 ![How to use the service](onboarding-how-to-use-the-service.png)
 
+### Handling the process steps
+
+#### Form steps
+
+The information to capture is defined in *`currentStep.formProperties`*. It must be validated by the front-end and then submitted to `/processes/{idProcess}/!executeCurrentStep`.
+
+#### Auth steps
+
+Before this step can be executed, we typically have to follow this flow:
+1. Call `processes/{idProcess}/!startAuthSubprocess` to start the auth process. This will send a verification message in the case of SMS or email and return the identifier of the sub process (*`idAuthProcess`*)
+2. Call `processes/{idProcess}/auth-processes/{idAuthProcess}/!validateCurrentAuthSubprocessStep` with the SMS or email code to validate the auth process
+
+![How to complete an auth step](onboarding-auth-process.png)
+
+#### Custom steps
+
+The workflow for this step depends on the *`step.code`*.
+
+The codes can be:
+* **JUMIO** for the Jumio Proof of Identity service (see [documentation here](mw-gen-jumio-ib.html.md))
+* **JUMIO_POA** for the Jumio Proof of Address service (see [documentation here](mw-gen-jumio-ib.html.md))
+* **KYC** and **ADDRESS_APPROVAL**. These are waiting steps for the front-end while the back-end contacts 3rd parties. See [back-end notifications](#back-end-notifications)
+* **DEVICE_CREDENTIALS** for regitering a device. See the `Device setup` API as part of the onboarding documentation
+* **AGREEMENT** for terms and conditions
+
+#### Application steps
+
+Based on the back-end configuration, the front-end application may have to create a certain type of default product for the user. For further information please look at the deposit API.
+
 ### User activation and public and private endpoints
 
 When the onboarding process is started, the user's account will be created, but not activated.
@@ -77,12 +103,22 @@ Before this point, all URLs must use the `/public/` endpoints. Afterwards, all U
 
 The account can be activated by the server at any stage after the user's authentication credentials are captured. This point can be configured on the system.
 
-### Supplementary processes
+### Back-end notifications
 
-** RADIM RADIM RADIM **
+At some stage in the process, the back-end may need to notify the front-end about either:
+* A **change in the onboarding process** e.g. the current process on the back-end has completed or
+* A **new complementary process** has been created by the back-end
 
-After execution of some specific types of steps we can start one or more complementary processes on background. In order to get list of processes we recommend you to call `/processes/!list` endpoint in `/Onboarding - private part` after every execution of "private" step. Every process has defined a `priority` attribute which defines the order of the processes, where the process with the lowest priority number will be the first.
+When either of the above happens, an `IB_ONBOARDING_PROCESS_CHANGED` event is served asynchronously via web socket. See [Asynchronous Communication service](mw-gen-asynccomm-ib.md) for more details.
 
-Some types of steps can have more complex flow to follow before they call the `execute`, see `steps[].stepType` attribute in `/process-definitions` resource and require some step type specific calls before its execution e.g. `Device setup` API.
+### New complementary processes
 
-Some of them are triggered and executed asynchronously on the Back-end so We provides Consumers application with Event about changes in process  - `IB_ONBOARDING_PROCESS_CHANGED` event (see [Asynchronous Communication service](mw-gen-asynccomm-ib.md) to get more information).
+As the back-end processes the submitted onboarding data, various checks will occur.
+
+When a check fails, the back-end can require further information from the user. This is done by creating a separate process such that the original onboarding process remains unchanged. This can only occur after the *`Authentication token`* has been issued.
+
+To get the list of processes, call `private/processes/!list`. Each process has a defined `priority` attribute which determines which process to complete first. The lowest `priority` value should be completed first i.e. 0 is more important than 1.
+
+We recommend that the front-end calls `private/processes/!list`:
+* When a **back-end notification** comes through
+* After **login** (see [Router](mw-gen-router-ib.md))
