@@ -40,11 +40,13 @@ When the framework has finished, it will be closed and return to the app a `scan
 5. Call `/!setScanTransactionStatus` to send the `status`.
 6. Go back to the onboarding flow.
 
-![Handling jumio on mobile](onboarding-handling-on-mobile.png)
+![Handling jumio on mobile](jumio-handling-on-mobile.png)
 
 ### Handling web channel
 
 Add the flow.
+
+![Handling jumio on mobile](jumio-handling-on-web.png)
 
 ### Frameworks
 
