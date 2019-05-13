@@ -21,14 +21,14 @@ The way to handle these codes will be different depending on the channel **web**
 Whether the flow you have to do is **proof of identity** or **address**, you have to follow the same steps.
 
 You will only change the url you are using in each case:
-* **Proof of identity (POI)**: `api/private/jumio/poi/`. eg: `api/private/jumio/poi/!getScanTransactionStatus`
-* **Proof of address (POA)**:  `api/private/jumio/poa/`. eg: `api/private/jumio/poa/!getScanTransactionStatus`
+* **Proof of identity (POI)**: `api/private/jumio/poi/` eg: `api/private/jumio/poi/!getScanTransactionStatus`
+* **Proof of address (POA)**:  `api/private/jumio/poa/` eg: `api/private/jumio/poa/!getScanTransactionStatus`
 
 The steps you have to follow to complete the **scan transaction** are:
 
 1. Call `/!getScanTransactionStatus` to know whether the actual status of the transaction was started or not. If the transaction has not started (status: `NOT_STATED_YET` or `PENDING`), move on to the next step. If it's finished (status: `SUCCESS`), go back to the onboarding flow.
 
-2. Call `/!startScanTransaction(idProcess)` to start the scan transaction. This will return you all data you need to open the framework.
+2. Call `/!startScanTransaction` with the `processId` to start the scan transaction. This will return you all data you need to open the framework.
 
 3. **Open the framework**. Depending on the data you want to extract, you will use:
  * **Netverify** to proof of identity case (see [iOS](https://github.com/Jumio/mobile-sdk-ios/blob/master/docs/integration_netverify-fastfill.md) and [Android](https://github.com/Jumio/mobile-sdk-android/blob/master/docs/integration_netverify-fastfill.md))
