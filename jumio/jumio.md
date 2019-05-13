@@ -10,15 +10,15 @@ The service has the responsabilities:
 
 ## How to use the service
 
-A *`code`*  will be obtained from the onboarding process (see [Onboarding](onboarding.md)). Based on this you will have:
+A *`code`*  will be obtained from the onboarding process (see [Onboarding](onboarding.md)). Based on this you will have different **scan transactions**:
   * **Proof of identity (POI)** where the customer will upload the files and Jumio will extract the identity data from them (code:  `JUMIO`)
   * **Proof of address (POA)** where the customer will upload the files and Jumio will extract the address data from them (code: `JUMIO_POA`)
 
-The flow to follow in both cases is the same. You only have to change the urls you are using in each case:
+The flow to follow in all scan transactions is the same. You only have to change the urls you are using in each one:
   * **Proof of identity (POI)**: `api/private/jumio/poi/` eg: `api/private/jumio/poi/!getScanTransactionStatus`
   * **Proof of address (POA)**:  `api/private/jumio/poa/` eg: `api/private/jumio/poa/!getScanTransactionStatus`
 
-However, the way to handle these cases will be different depending on the channel **web** or **mobile**.
+However, the way to handle these scan transactions will be different depending on the channel **web** or **mobile**.
 
  ### Handling mobile channel
 
@@ -28,7 +28,7 @@ The steps you have to follow to complete the **scan transaction** are:
 
 2. Call `/!startScanTransaction` with the `processId` to start the scan transaction. This will return you all data you need to open the framework.
 
-3. **Open the framework**. Depending on the data you want to extract, you will use:
+3. Open the framework. Depending on the data you want to extract, you will use:
  * **Netverify** to proof of identity case (see [iOS](https://github.com/Jumio/mobile-sdk-ios/blob/master/docs/integration_netverify-fastfill.md) and [Android](https://github.com/Jumio/mobile-sdk-android/blob/master/docs/integration_netverify-fastfill.md))
  * **Document verification** to proof of address case (see [iOS](https://github.com/Jumio/mobile-sdk-ios/blob/master/docs/integration_document-verification.md) and [Android](https://github.com/Jumio/mobile-sdk-android/blob/master/docs/integration_document-verification.md))
 
