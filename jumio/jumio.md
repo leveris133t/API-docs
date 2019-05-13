@@ -10,19 +10,17 @@ The service has the responsabilities:
 
 ## How to use the service
 
-During the onboarding process, you will get a step *`code`* (see [Onboarding](onboarding.md)). Based on this, you will do:
+A *`code`*  will be obtained from the onboarding process (see [Onboarding](onboarding.md)). Based on this you will have:
   * **Proof of identity (POI)** where the customer will upload the files and Jumio will extract the identity data from them (code:  `JUMIO`)
   * **Proof of address (POA)** where the customer will upload the files and Jumio will extract the address data from them (code: `JUMIO_POA`)
 
-The way to handle these codes will be different depending on the channel **web** or **mobile**.
+The flow to follow in both cases is the same. You only have to change the urls you are using in each case:
+  * **Proof of identity (POI)**: `api/private/jumio/poi/` eg: `api/private/jumio/poi/!getScanTransactionStatus`
+  * **Proof of address (POA)**:  `api/private/jumio/poa/` eg: `api/private/jumio/poa/!getScanTransactionStatus`
+
+However, the way to handle these cases will be different depending on the channel **web** or **mobile**.
 
  ### Handling mobile channel
-
-Whether the flow you have to do is **proof of identity** or **address**, you have to follow the same steps.
-
-You will only change the url you are using in each case:
-* **Proof of identity (POI)**: `api/private/jumio/poi/` eg: `api/private/jumio/poi/!getScanTransactionStatus`
-* **Proof of address (POA)**:  `api/private/jumio/poa/` eg: `api/private/jumio/poa/!getScanTransactionStatus`
 
 The steps you have to follow to complete the **scan transaction** are:
 
@@ -44,7 +42,12 @@ When the framework has finished, it will be closed and return to the app a `scan
 
 ### Handling web channel
 
-Add the flow.
+The steps you should follow to complete the **scan transaction** are:
+1. Call `/getScanTransactionStatus` to know whether the actual status of the transaction was started or not. If the transaction has not started (status: `NOT_STARTED_YET`), move on to the next step. If it's finished (status: `SUCCESS`), go back to the onboarding flow.
+
+2. Get the framework url to start it. Depending on the type of the transaction:
+  * Proof of address:
+  * Proof of identity:
 
 ![Handling jumio on mobile](jumio-handling-on-web.png)
 
