@@ -89,7 +89,7 @@ The codes can be:
 
 #### Application steps
 
-Based on the back-end configuration, the front-end application may have to create a certain type of default product for the user. For further information please look at the deposit API.
+Based on the back-end configuration, the front-end application may have to create a certain type of default product for the user. For further information please look at the [deposit API](mw-gen-deposit-ib.html.md).
 
 ### User activation and public and private endpoints
 
