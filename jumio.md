@@ -1,18 +1,18 @@
 # IB JUMIO
 
-The **jumio service** is responsible for verifing the customer identity, proofing their address and extracting the information from the files uploaded.
+The **jumio service** is responsible for verifing the customer identity, proving their address and extracting the information from the uploaded files.
 
 ## Responsibilities of the service
 
 The service has the responsabilities:
-* **Proof the customer identity** and **extract the data** from the file uploaded e.g. ID card, driving license, passport
-* **Proof the customer address** and **extract the data** from the file uploaded e.g. Utility bill, bank statement, phone bill
+* **Prove the customer identity** and **extract the data** from the file uploaded e.g. ID card, driving license, passport
+* **Prove the customer address** and **extract the data** from the file uploaded e.g. Utility bill, bank statement, phone bill
 
 ## How to use the service
 
 During the onboarding process, you will get a step *`code`* (see [Onboarding](onboarding.md)). Based on this, you will do:
-  * **Proof of identity (POI)** to extract the identity data from the customer (code:  `JUMIO`)
-  * **Proof of address (POA)** to extract the address data from the customer (code: `JUMIO_POA`)
+  * **Proof of identity (POI)** where the customer will upload the files and Jumio will extract the identity data from them (code:  `JUMIO`)
+  * **Proof of address (POA)** where the customer will upload the files and Jumio will extract the address data from them (code: `JUMIO_POA`)
 
 The way to handle these codes will be different depending on the channel **web** or **mobile**.
 
