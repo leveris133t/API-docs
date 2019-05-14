@@ -20,18 +20,18 @@ Every physical card must be created by an external card provider and be delivere
 
 Using the cards service the user is able to:
 
-- [Create virtual cards](#markdown-header-creating-a-virtual-card)
-- [Order physical cards to be delivered to the specified address](#markdown-header-ordering-a-physical-card)
-- [View card details like its number, expiry date and CVV/CVC](#markdown-header-view-card-details)
-- [Freeze/unfreeze the card](#markdown-header-freeze-unfreeze-card)
-- [Manage security and limits of card usage](#markdown-header-card-limits-and-security)
-- [Cancel the card](#markdown-header-cancel-card)
+- [Create virtual cards](#creating-a-virtual-card)
+- [Order physical cards to be delivered to the specified address](#ordering-a-physical-card)
+- [View card details like its number, expiry date and CVV/CVC](#view-card-details)
+- [Freeze/unfreeze the card](#freeze-unfreeze-card)
+- [Manage security and limits of card usage](#card-limits-and-security)
+- [Cancel the card](#cancel-card)
 
 For physical cards the user of the cards service can also:
 
-- [Activate the card](#markdown-header-activating-the-physical-card)
-- [Change the PIN](#markdown-header-change-physical-card-pin)
-- [Report the card as lost, stolen or detained (damaged or broken)](#markdown-header-report-physical-card)
+- [Activate the card](#activating-the-physical-card)
+- [Change the PIN](#change-physical-card-pin)
+- [Report the card as lost, stolen or detained (damaged or broken)](#report-physical-card)
 
 ## Card statuses
 
@@ -43,7 +43,7 @@ The card has an associated status, from which we can know what to communicate to
 - **FROZEN** - Card is blocked temporarily. This can be triggered by the user or by the bank. When frozen by the user, the user will be able to unfreeze through the cards service. When frozen by the bank, the user will have to contact the bank and only the bank can unfreeze it.
 - **PERMANENTLY_BLOCKED** - Card was reported as lost, stolen or detained and is now permanently blocked. It can't be used for any type of transaction.
 
-Note that after performing an action that can update of the status ([activate](#markdown-header-activating-the-physical-card), [freeze](#markdown-header-freeze), etc), the actual status of the card may take a while to update. For this cases, it's recommended to use the polling technique until the status has been updated to the expected status.
+Note that after performing an action that can update of the status ([activate](#activating-the-physical-card), [freeze](#freeze), etc), the actual status of the card may take a while to update. For this cases, it's recommended to use the polling technique until the status has been updated to the expected status.
 
 <!-- TODO added state relationship -->
 
