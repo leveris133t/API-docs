@@ -68,7 +68,7 @@ We can then use the [/cards/!create](https://doc.ffc.internal/api/mw-gen-payment
 After the creation of the virtual card with the cards service, we need to contact our external card provider to obtain the identifier of the card in the external card provider's service, the **s2cCardId**. To do that we need to use the **externalCustomerId** to get a token, through the [/cards/!token](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#848) endpoint, so we can get the list of cards registered in the provider's service. We then use this list to find the card with the same **externalCardId** and get its **s2cCardId**. We then need to register this with the cards service through the [/cards/{cardId}/!setS2cCardId](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1086).
 
 See the sequence diagram below:
-![Create virtual card diagram](/create_virtual_card.png)
+![Create virtual card diagram](create_virtual_card.png)
 
 ### Ordering a physical card
 
@@ -82,7 +82,7 @@ After the user provides the PIN, we need to request a new token to contact the e
 When the PIN is created on the external card provider's service, we have to tell the cards service that this operation was finished successfully. To do that, we can use the [/cards/{cardId}/!setPinOk](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1100) endpoint. <!-- TODO: this was refactored -->
 
 See the sequence diagram below:
-![Order physical card diagram](/order_physical_card.png)
+![Order physical card diagram](order_physical_card.png)
 
 #### Activating the physical card
 
