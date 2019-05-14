@@ -23,7 +23,7 @@ Using the cards service the user is able to:
 - [Create virtual cards](#creating-a-virtual-card)
 - [Order physical cards to be delivered to the specified address](#ordering-a-physical-card)
 - [View card details like its number, expiry date and CVV/CVC](#view-card-details)
-- [Freeze/unfreeze the card](#freeze-unfreeze-card)
+- [Freeze/unfreeze the card](#freeze/unfreeze-card)
 - [Manage security and limits of card usage](#card-limits-and-security)
 - [Cancel the card](#cancel-card)
 
