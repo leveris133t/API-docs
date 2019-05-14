@@ -1,6 +1,6 @@
 # IB JUMIO
 
-The **jumio service** is responsible for verifing the user´s identity, verifying their address and extracting the information from the uploaded files.
+The **jumio service** is responsible for verifing the user´s identity, verifying their address and extracting information from the uploaded files.
 
 ## Responsibilities of the service
 
