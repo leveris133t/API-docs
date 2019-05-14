@@ -39,8 +39,8 @@ However, the API flow varies depending on the channel: **web** or **mobile**.
 2. Start the scan transaction by calling `/!startScanTransaction`. This returns the data required to configure the Jumio mobile frameworks
 
 3. Open the mobile framework. Depending on the type of **scan transaction**, you will use either:
- * **Netverify** for proof of identity (see [iOS](https://github.com/Jumio/mobile-sdk-ios/blob/master/docs/integration_netverify-fastfill.md) and [Android](https://github.com/Jumio/mobile-sdk-android/blob/master/docs/integration_netverify-fastfill.md)) or
- * **Document verification** for proof of address (see [iOS](https://github.com/Jumio/mobile-sdk-ios/blob/master/docs/integration_document-verification.md) and [Android](https://github.com/Jumio/mobile-sdk-android/blob/master/docs/integration_document-verification.md))
+   - **Netverify** for proof of identity (see [iOS](https://github.com/Jumio/mobile-sdk-ios/blob/master/docs/integration_netverify-fastfill.md) and [Android](https://github.com/Jumio/mobile-sdk-android/blob/master/docs/integration_netverify-fastfill.md)) or
+   - **Document verification** for proof of address (see [iOS](https://github.com/Jumio/mobile-sdk-ios/blob/master/docs/integration_document-verification.md) and [Android](https://github.com/Jumio/mobile-sdk-android/blob/master/docs/integration_document-verification.md))
 
 When the framework has finished, the app will get a `scanReference` that must be sent to the server.
 
