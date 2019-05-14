@@ -1,12 +1,15 @@
 # IB JUMIO
 
-The **jumio service** is responsible for verifing the customer identity, proving their address and extracting the information from the uploaded files.
+The **jumio service** is responsible for verifing the user´s identity, verifying their address and extracting the information from the uploaded files.
 
 ## Responsibilities of the service
 
-The service has the responsabilities:
-* **Prove the customer identity** and **extract the data** from the uploaded file e.g. ID card, driving license, passport
-* **Prove the customer address** and **extract the data** from the uploaded file e.g. Utility bill, bank statement, phone bill
+The ultimate responsilibity of the service is to verify idenfication and address documents.
+
+It does this by supporting:
+* **Document upload** from the user e.g. identity and address documents
+* **Data extraction** from the uploaded documents and
+* **Document verification**
 
 ## How to use the service
 
