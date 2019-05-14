@@ -15,7 +15,7 @@ It does this by supporting:
 
 The Jumio service is typically kicked off by the [onboarding process](onboarding.md) via a particular  *`code`*.
 
-The entire workflow of processing a document is called a **scan transaction**.
+The entire workflow of processing a document or verification is called a **scan transaction**.
 
 The following **scan transactions** can be requested:
 * **Proof of identity (POI)** where the customer will upload identity documents (e.g. passport, driver's license) and take a selfie
