@@ -13,10 +13,13 @@ It does this by supporting:
 
 ## How to use the service
 
-A *`code`*  will be obtained from the onboarding process (see [Onboarding](onboarding.md)). Based on this you will have different **scan transactions**:
+The Jumio service is typically kicked off by the [onboarding process](onboarding.md). The type of document upload is specified via a particular  *`code`*.
 
+The following document types are supported:
   * **Proof of identity (POI)** where the customer will upload the identity files and take a photo of himself (code:  `JUMIO`)
   * **Proof of address (POA)** where the customer will upload the address files (code: `JUMIO_POA`)
+
+Each time one of these is required, it is called a **scan transaction**.
 
 When the upload is completed, Jumio will:
 1. **Extract the data** from the files
