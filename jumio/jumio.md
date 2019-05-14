@@ -68,6 +68,7 @@ The steps you should follow to complete the **scan transaction** are:
 
 ### Frameworks
 
-- Real Jumio
-- Mock Jumio
-- Web Jumio
+The [Jumio](https://github.com/Jumio/implementation-guides) frameworks are:
+
+* **Netverify** to prove the identity of a customer and extract the data
+* **Document verification** to prove the address of a customer and extract the data
