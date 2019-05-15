@@ -64,7 +64,7 @@ When the framework has finished, the app will get a `scanReference` that must be
 
 5. Send the `scanReference`and `status` with `/setScanTransactionStatus`
 
-6. Return to the onboarding flow.
+6. Return to the onboarding flow
 
 ![Handling jumio on mobile](jumio-handling-on-web.png)
 
