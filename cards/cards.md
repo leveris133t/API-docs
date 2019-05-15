@@ -48,8 +48,8 @@ Note that after performing an action that can update of the status ([activate](#
 Using the cards service the user is able to:
 
 -   [Create and order a card](#creatingordering-a-card)
-    -   [Create virtual cards](#creating-a-virtual-card)
-    -   [Order physical cards](#ordering-a-physical-card)
+    -   [Create cards](#creating-a-card)
+    -   [Setting PIN for physical cards](#creating-a-pin-for-physical-card)
 -   [View card details like its number, expiry date and CVV/CVC](#view-card-details)
 -   [Freeze/unfreeze the card](#freezeunfreeze-card)
 -   [Manage security and limits of card usage](#card-limits-and-security)
@@ -80,7 +80,7 @@ After the creation of the card with the cards service, we need to contact our ex
 See the sequence diagram below:
 ![Create card diagram](create_card_create.png)
 
-#### Ordering a physical card
+#### Creating a PIN for physical card
 
 When creating a physical card, we have to associate a PIN. We can do this after obtaining the **s2cCardId**.
 After the user provides the PIN, we need to request a new token to contact the external card provider's service. We then can use the token to create the PIN using the provider's service. Note that the cards service will never request or store the PIN directly, this is only allowed when using the external card provider's service directly.
