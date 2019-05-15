@@ -1,20 +1,20 @@
 # Cards
 
-The cards service is responsible for allowing a user to create, activate and manage his card(s).
+The cards service is responsible for allowing a user to create, activate and manage their card(s).
 
 ## Overview
 
 There are two types of cards that are supported by the cards service:
 
-###### Virtual card
+###### Virtual cards
 
 Virtual cards are the most basic representation of a card with a card number, expiry date and CVV/CVC.
-They can be used for e-commerce transactions and, when supported, through a smartphone using NFC (Near-Field-Communication) technology.
+They can be used for e-commerce transactions and, when supported, with NFC (Near-Field-Communication) capable smartphones.
 
-###### Physical card
+###### Physical cards
 
-Physical cards have an associated plastic card which the user owns and can use at ATMs and in POS.
-Every physical card must be created by an external card provider and be delivered to the user by post or handed over in a physical branch.
+Physical cards have an associated plastic card which can be used at ATMs and POS's (Points of Sale).
+Every physical card must be created by an external card provider and subsequently delivered to the user by post or handed over in a physical branch.
 
 ## User enabled actions
 
