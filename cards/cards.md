@@ -20,28 +20,28 @@ Every physical card must be created by an external card provider and be delivere
 
 Using the cards service the user is able to:
 
-- [Create virtual cards](#creating-a-virtual-card)
-- [Order physical cards to be delivered to the specified address](#ordering-a-physical-card)
-- [View card details like its number, expiry date and CVV/CVC](#view-card-details)
-- [Freeze/unfreeze the card](#freezeunfreeze-card)
-- [Manage security and limits of card usage](#card-limits-and-security)
-- [Cancel the card](#cancel-card)
+-   [Create virtual cards](#creating-a-virtual-card)
+-   [Order physical cards to be delivered to the specified address](#ordering-a-physical-card)
+-   [View card details like its number, expiry date and CVV/CVC](#view-card-details)
+-   [Freeze/unfreeze the card](#freezeunfreeze-card)
+-   [Manage security and limits of card usage](#card-limits-and-security)
+-   [Cancel the card](#cancel-card)
 
 For physical cards the user of the cards service can also:
 
-- [Activate the card](#activating-the-physical-card)
-- [Change the PIN](#change-physical-card-pin)
-- [Report the card as lost, stolen or detained (damaged or broken)](#report-physical-card)
+-   [Activate the card](#activating-the-physical-card)
+-   [Change the PIN](#change-physical-card-pin)
+-   [Report the card as lost, stolen or detained (damaged or broken)](#report-physical-card)
 
 ## Card statuses
 
 The card has an associated status, from which we can know what to communicate to the user and what actions the user is able to perform.
 
-- **ORDERED** - Card was created and ordered. For virtual cards this status is momentary and doesn't require any further action from the user. For physical cards, the user will be able to track the card delivery and activate it when the card has been received.
-- **WAITING_FOR_TRANSACTION** - The card was activated in the app but needs the first PIN transaction in a POS or ATM.
-- **ACTIVE** - The card is fully active.
-- **FROZEN** - Card is blocked temporarily. This can be triggered by the user or by the bank. When frozen by the user, the user will be able to unfreeze through the cards service. When frozen by the bank, the user will have to contact the bank and only the bank can unfreeze it.
-- **PERMANENTLY_BLOCKED** - Card was reported as lost, stolen or detained and is now permanently blocked. It can't be used for any type of transaction.
+-   **ORDERED** - Card was created and ordered. For virtual cards this status is momentary and doesn't require any further action from the user. For physical cards, the user will be able to track the card delivery and activate it when the card has been received.
+-   **WAITING_FOR_TRANSACTION** - The card was activated in the app but needs the first PIN transaction in a POS or ATM.
+-   **ACTIVE** - The card is fully active.
+-   **FROZEN** - Card is blocked temporarily. This can be triggered by the user or by the bank. When frozen by the user, the user will be able to unfreeze through the cards service. When frozen by the bank, the user will have to contact the bank and only the bank can unfreeze it.
+-   **PERMANENTLY_BLOCKED** - Card was reported as lost, stolen or detained and is now permanently blocked. It can't be used for any type of transaction.
 
 ![State diagram for the card statuses](card_statuses.png)
 
@@ -100,6 +100,7 @@ The cards service never requests or stores the PIN of the card. To change the PI
 To do that we need to obtain a token for accessing the provider's service using the [/cards/!token](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#848) endpoint. We can then access the provider's service to change the PIN.
 
 Note that after a PIN change, the user is required to make a PIN transaction with his physical card on an ATM or POS.
+
 <!-- TODO add new refactor -->
 
 ## Report physical card
@@ -134,9 +135,10 @@ To enable or disable e-commerce we can use the [/cards/{idCard}/!updateEcommerce
 The default card limits are defined at the card product level, which means all cards are issued with predefined limits.
 
 All limits are defined based on the same time period:
-- Daily - limit is defined by maximum amount or number of transactions per day
-- Weekly - limit is defined by maximum amount or number of transactions per week
-- Monthly - limit is defined by maximum amount or number of transactions per month
+
+-   Daily - limit is defined by maximum amount or number of transactions per day
+-   Weekly - limit is defined by maximum amount or number of transactions per week
+-   Monthly - limit is defined by maximum amount or number of transactions per month
 
 Each limit can be defined by a maximum amount or by the number of transactions
 
