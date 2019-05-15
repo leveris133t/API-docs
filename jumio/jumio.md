@@ -50,6 +50,7 @@ When the framework has finished, the app will get a `scanReference` that must be
 
 6. Return to the onboarding flow
 
+![Handling jumio on mobile](jumio-handling-on-mobile.png)
 
 ### Handling the web channel
 
