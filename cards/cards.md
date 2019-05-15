@@ -43,9 +43,9 @@ The card has an associated status, from which we can know what to communicate to
 - **FROZEN** - Card is blocked temporarily. This can be triggered by the user or by the bank. When frozen by the user, the user will be able to unfreeze through the cards service. When frozen by the bank, the user will have to contact the bank and only the bank can unfreeze it.
 - **PERMANENTLY_BLOCKED** - Card was reported as lost, stolen or detained and is now permanently blocked. It can't be used for any type of transaction.
 
-Note that after performing an action that can update of the status ([activate](#activating-the-physical-card), [freeze](#freeze), etc), the actual status of the card may take a while to update. For this cases, it's recommended to use the polling technique until the status has been updated to the expected status.
+![State diagram for the card statuses](card_statuses.png)
 
-<!-- TODO added state relationship -->
+Note that after performing an action that can update of the status ([activate](#activating-the-physical-card), [freeze](#freeze), etc), the actual status of the card may take a while to update. For this cases, it's recommended to use the polling technique until the status has been updated to the expected status.
 
 ## Prerequisites
 
@@ -108,7 +108,7 @@ The user can report a physical card as lost, stolen or detained (damaged or brok
 
 Note that this action can't be reverted and the user will not be able to use the card anymore after this action.
 
-## Freeze/Unfreeze card
+## Freeze/unfreeze card
 
 ###### Freeze
 
