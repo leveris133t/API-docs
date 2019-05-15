@@ -24,7 +24,7 @@ The following **scan transactions** can be requested:
 When the upload is completed, Jumio will:
 1. **Extract data** from the files
 2. **Perform checks** against the data and documents uploaded
-3. **Send results to the Leveris Jumio service**. This happens via a **callback URL** between the Leveris and Jumio systems
+3. **Send results to the Leveris Server**. This happens via a **callback URL** between the Leveris and Jumio systems
 
 The API flow for each type of scan transaction is the same, however, the base URLs change slightly:
   * **Proof of identity (POI)**: `api/private/jumio/poi/` eg: `api/private/jumio/poi/!getScanTransactionStatus`
