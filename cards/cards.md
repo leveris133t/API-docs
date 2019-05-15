@@ -23,15 +23,21 @@ Every physical card must be created by an external card provider and subsequentl
 The cards service requires that the user has been onboarded and is logged in to the Internet Banking service.
 The back office defines how many cards and which type of the cards the user is able to own.
 
+**VASEK VASEK VASEK**
+
+Customer can order a payment card for a specific current account, see /cards/!create. System controls how many cards (and of which type) the customer owns. As of now the customer can have two cards at maximum (one physical card, one virtual card) while CMS takes care of which type the customer currently owns. For example, if he has only virtual card, the system offers just physical card, vice versa. Should the customer runs out of these types of card, he is not offered any new card.
+
+**VASEK VASEK VASEK**
+
 #### Card statuses
 
-The card has an associated status, from which we can know what to communicate to the user and what actions the user is able to perform.
+Each card has an associated status. From this, we can determine what to communicate to the user and what actions the user is able to perform.
 
--   **ORDERED** - Card was created and ordered. For virtual cards this status is momentary and doesn't require any further action from the user. For physical cards, the user will be able to track the card delivery and activate it when the card has been received.
--   **WAITING_FOR_TRANSACTION** - The card was activated in the app but needs the first PIN transaction in a POS or ATM.
--   **ACTIVE** - The card is fully active.
--   **FROZEN** - Card is blocked temporarily. This can be triggered by the user or by the bank. When frozen by the user, the user will be able to unfreeze through the cards service. When frozen by the bank, the user will have to contact the bank and only the bank can unfreeze it.
--   **PERMANENTLY_BLOCKED** - Card was reported as lost, stolen or detained and is now permanently blocked. It can't be used for any type of transaction.
+-   **ORDERED** - Card was created and ordered. For virtual cards this status is momentary and doesn't require any further action from the user. For physical cards, the user will be able to track the card's delivery and activate it when the card has been received
+-   **WAITING_FOR_TRANSACTION** - The card was activated in the app but needs a PIN transaction in an internet connected POS or ATM. Physical cards cannot be used for transactions while this status is active. Virtual cards are unaffected by this status
+-   **ACTIVE** - The card is fully active
+-   **FROZEN** - Card is blocked temporarily. This can be triggered by the user or by the bank. When frozen by the user, the user will be able to unfreeze through the cards service. When frozen by the bank, it can only be unfrozen via the back-office interface
+-   **PERMANENTLY_BLOCKED** - Card was reported as lost, stolen or detained and is now permanently blocked. It can't be used for any type of transaction i.e. the card is effectively cancelled
 
 ![State diagram for the card statuses](card_statuses.png)
 
@@ -41,8 +47,9 @@ Note that after performing an action that can update of the status ([activate](#
 
 Using the cards service the user is able to:
 
--   [Create virtual cards](#creating-a-virtual-card)
--   [Order physical cards to be delivered to the specified address](#ordering-a-physical-card)
+-   [Create and order a card](#creatingordering-a-card)
+    -   [Create virtual cards](#creating-a-virtual-card)
+    -   [Order physical cards](#ordering-a-physical-card)
 -   [View card details like its number, expiry date and CVV/CVC](#view-card-details)
 -   [Freeze/unfreeze the card](#freezeunfreeze-card)
 -   [Manage security and limits of card usage](#card-limits-and-security)
@@ -93,7 +100,7 @@ To do that we can use the [/cards/{cardId}/!activate](https://doc.ffc.internal/a
 
 ## View card details
 
-The cards service doesn't provide the security details (Full number PAN, CVV/CVC) directly, but we can get this values from the external card provider's service.
+The cards service doesn't provide the security details (Full card number, CVV/CVC) directly, but we can get these values from the external card provider's service.
 To do that we need to obtain a token for accessing the provider's service using the [/cards/!token](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#848) endpoint. We can then access the provider's service to obtain these details.
 
 ## Change physical card PIN
