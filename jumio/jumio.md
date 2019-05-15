@@ -60,9 +60,9 @@ When the framework has finished, the app will get a `scanReference` that must be
 
 3. Call the `redirectUrl` to open the required Jumio framework. When complete, the framework will redirect to one of previously specified URLs: `successUrl` or `errorUrl`
 
-4. Call `/getScanTransactionStatus` to get the actual status of the transaction. If the transaction is pending (status: `PENDING`) move on to the next step
+4. Call `/!getScanTransactionStatus` to get the actual status of the transaction. If the transaction is pending (status: `PENDING`) move on to the next step
 
-5. Send the `scanReference`and `status` with `/setScanTransactionStatus`
+5. Send the `scanReference`and `status` with `/!setScanTransactionStatus`
 
 6. Return to the onboarding flow
 
