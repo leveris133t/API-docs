@@ -108,7 +108,7 @@ The user can report a physical card as lost, stolen or detained (damaged or brok
 
 Note that this action can't be reverted and the user will not be able to use the card anymore after this action.
 
-## FreezeUnfreeze card
+## Freeze/Unfreeze card
 
 ###### Freeze
 
