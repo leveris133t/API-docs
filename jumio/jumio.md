@@ -1,6 +1,6 @@
 # IB JUMIO
 
-The **jumio service** is responsible for verifing the user´s identity, verifying their address and extracting the information from the uploaded files.
+The **jumio service** is responsible for verifing the user´s identity, verifying their address and extracting information from the uploaded files.
 
 ## Responsibilities of the service
 
@@ -13,9 +13,9 @@ It does this by supporting:
 
 ## How to use the service
 
-The Jumio service is typically kicked off by the [onboarding process](onboarding.md) via a particular  *`code`*.
+The Jumio service is typically kicked off by the [onboarding process](onboarding.md).
 
-The entire workflow of processing a document is called a **scan transaction**.
+The entire workflow of processing a document or verification is called a **scan transaction**.
 
 The following **scan transactions** can be requested:
 * **Proof of identity (POI)** where the customer will upload identity documents (e.g. passport, driver's license) and take a selfie
@@ -24,7 +24,7 @@ The following **scan transactions** can be requested:
 When the upload is completed, Jumio will:
 1. **Extract data** from the files
 2. **Perform checks** against the data and documents uploaded
-3. **Send results to the Leveris backend**. This happens via a **callback URL** between the Leveris and Jumio system
+3. **Send results to the Leveris Server**. This happens via a **callback URL** between the Leveris and Jumio systems
 
 The API flow for each type of scan transaction is the same, however, the base URLs change slightly:
   * **Proof of identity (POI)**: `api/private/jumio/poi/` eg: `api/private/jumio/poi/!getScanTransactionStatus`
