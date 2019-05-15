@@ -1,27 +1,55 @@
 # Cards
 
-The cards service is responsible for allowing a user to create, activate and manage his card(s).
+The cards service is responsible for allowing a user to create, activate and manage their card(s).
 
-## Overview
+## Responsibilities of the service
 
 There are two types of cards that are supported by the cards service:
 
-###### Virtual card
+###### Virtual cards
 
 Virtual cards are the most basic representation of a card with a card number, expiry date and CVV/CVC.
-They can be used for e-commerce transactions and, when supported, through a smartphone using NFC (Near-Field-Communication) technology.
+They can be used for e-commerce transactions and, when supported, with NFC (Near-Field-Communication) capable smartphones.
 
-###### Physical card
+###### Physical cards
 
-Physical cards have an associated plastic card which the user owns and can use at ATMs and in POS.
-Every physical card must be created by an external card provider and be delivered to the user by post or handed over in a physical branch.
+Physical cards have an associated plastic card which can be used at ATMs and POS's (Points of Sale).
+Every physical card must be created by an external card provider and subsequently delivered to the user by post or handed over in a physical branch.
 
-## User enabled actions
+## How to use the service
+
+#### Prerequisites
+
+The cards service requires that the user has been onboarded and is logged in to the Internet Banking service.
+The back office defines how many cards and which type of the cards the user is able to own.
+
+**VASEK VASEK VASEK**
+
+Customer can order a payment card for a specific current account, see /cards/!create. System controls how many cards (and of which type) the customer owns. As of now the customer can have two cards at maximum (one physical card, one virtual card) while CMS takes care of which type the customer currently owns. For example, if he has only virtual card, the system offers just physical card, vice versa. Should the customer runs out of these types of card, he is not offered any new card.
+
+**VASEK VASEK VASEK**
+
+#### Card statuses
+
+Each card has an associated status. From this, we can determine what to communicate to the user and what actions the user is able to perform.
+
+-   **ORDERED** - Card was created and ordered. For virtual cards this status is momentary and doesn't require any further action from the user. For physical cards, the user will be able to track the card's delivery and activate it when the card has been received
+-   **WAITING_FOR_TRANSACTION** - The card was activated in the app but needs a PIN transaction in an internet connected POS or ATM. Physical cards cannot be used for transactions while this status is active. Virtual cards are unaffected by this status
+-   **ACTIVE** - The card is fully active
+-   **FROZEN** - Card is blocked temporarily. This can be triggered by the user or by the bank. When frozen by the user, the user will be able to unfreeze through the cards service. When frozen by the bank, it can only be unfrozen via the back-office interface
+-   **PERMANENTLY_BLOCKED** - Card was reported as lost, stolen or detained and is now permanently blocked. It can't be used for any type of transaction i.e. the card is effectively cancelled
+
+![State diagram for the card statuses](card_statuses.png)
+
+Note that after performing an action that can update of the status ([activate](#activating-the-physical-card), [freeze](#freeze), etc), the actual status of the card may take a while to update. For this cases, it's recommended to use the polling technique until the status has been updated to the expected status.
+
+#### User actions
 
 Using the cards service the user is able to:
 
--   [Create virtual cards](#creating-a-virtual-card)
--   [Order physical cards to be delivered to the specified address](#ordering-a-physical-card)
+-   [Create and order a card](#creatingordering-a-card)
+    -   [Create cards](#creating-a-card)
+    -   [Setting PIN for physical cards](#creating-a-pin-for-physical-card)
 -   [View card details like its number, expiry date and CVV/CVC](#view-card-details)
 -   [Freeze/unfreeze the card](#freezeunfreeze-card)
 -   [Manage security and limits of card usage](#card-limits-and-security)
@@ -33,65 +61,43 @@ For physical cards the user of the cards service can also:
 -   [Change the PIN](#change-physical-card-pin)
 -   [Report the card as lost, stolen or detained (damaged or broken)](#report-physical-card)
 
-## Card statuses
-
-The card has an associated status, from which we can know what to communicate to the user and what actions the user is able to perform.
-
--   **ORDERED** - Card was created and ordered. For virtual cards this status is momentary and doesn't require any further action from the user. For physical cards, the user will be able to track the card delivery and activate it when the card has been received.
--   **WAITING_FOR_TRANSACTION** - The card was activated in the app but needs the first PIN transaction in a POS or ATM.
--   **ACTIVE** - The card is fully active.
--   **FROZEN** - Card is blocked temporarily. This can be triggered by the user or by the bank. When frozen by the user, the user will be able to unfreeze through the cards service. When frozen by the bank, the user will have to contact the bank and only the bank can unfreeze it.
--   **PERMANENTLY_BLOCKED** - Card was reported as lost, stolen or detained and is now permanently blocked. It can't be used for any type of transaction.
-
-![State diagram for the card statuses](card_statuses.png)
-
-Note that after performing an action that can update of the status ([activate](#activating-the-physical-card), [freeze](#freeze), etc), the actual status of the card may take a while to update. For this cases, it's recommended to use the polling technique until the status has been updated to the expected status.
-
-## Prerequisites
-
-The cards service requires that the user has been onboarded and is logged in to the Internet Banking service.
-The back office defines how many cards and which type of the cards the user is able to own.
-
 ## Creating/Ordering a card
 
-To create a virtual card or to order a physical card the user needs to indicate which account the card will be associated to and which card product is desired.
+To create a virtual card or to order a physical card the user needs to indicate which account the card will be associated to. To get the list of accounts we can use the [/accounts/!list](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1132) endpoint.
 
-To get the list of accounts we can use the [/accounts/!list](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1132) endpoint.
+The user also needs to choose one of the available card products. The card product technology type defines which type of card will be created: **virtual** for virtual cards and **contactless** for physical cards. To get the list of available card products we can use the [/products/!list](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#837) endpoint.
 
-To get the list of available card products we can use the [/products/!list](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#837) endpoint.
+In case of ordering a physical card, the user has the option to provide a delivery address. If a delivery address is not provided, the cards service will use the address registered during the onboard of the user. To get the list of available delivery addresses we can use the [/delivery-addresses/!list](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1121) endpoint.
 
-### Creating a virtual card
+![Obtaining cards initial values diagram](create_card_init.png)
 
-To create a virtual card the user needs to indicate a card product with the technology of type **virtual**.
-We can then use the [/cards/!create](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#874) endpoint passing the required **accountNumber** and **productName**.
+#### Creating a card
 
-After the creation of the virtual card with the cards service, we need to contact our external card provider to obtain the identifier of the card in the external card provider's service, the **s2cCardId**. To do that we need to use the **externalCustomerId** to get a token, through the [/cards/!token](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#848) endpoint, so we can get the list of cards registered in the provider's service. We then use this list to find the card with the same **externalCardId** and get its **s2cCardId**. We then need to register this with the cards service through the [/cards/{cardId}/!setS2cCardId](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1086).
+We can use the [/cards/!create](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#874) endpoint passing the required **accountNumber** and **productName**. If creating a physical card, we have the option to specify the **deliveryAddress**.
+
+After the creation of the card with the cards service, we need to contact our external card provider to obtain the identifier of the card in the external card provider's service, the **s2cCardId**. To do that we need to use the **externalCustomerId** to get a token, through the [/cards/!token](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#848) endpoint, so we can get the list of cards registered in the provider's service. We then use this list to find the card with the same **externalCardId** and get its **s2cCardId**. We then need to register this with the cards service through the [/cards/{cardId}/!setS2cCardId](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1086).
 
 See the sequence diagram below:
-![Create virtual card diagram](create_virtual_card.png)
+![Create card diagram](create_card_create.png)
 
-### Ordering a physical card
+#### Creating a PIN for physical card
 
-To order a physical card the user needs to create the card first. The process of a physical card creation is similar to the creation of a virtual card with the difference that the technology of the card product has to be of the type **contactless**, and we can also provide an optional delivery address. We can then use the [/cards/!create](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#874) endpoint passing the required **accountNumber**, **productName** and the optional **deliveryAddress**. In case where the **deliveryAddress** is not provided, the cards service will use the address registered during the onboard of the user.
-
-After creating a card with the cards service, we need to contact our external card provider to obtain the identifier of the card in the external card provider's service, the **s2cCardId**. To do that we need to use the **externalCustomerId** to get a token, through the [/cards/!token](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#848) endpoint, so we can get the list of cards registered in the provider's service. We then use this list to find the card with the same **externalCardId** and get its **s2cCardId**. We then need to register this with the cards service through the [/cards/{cardId}/!setS2cCardId](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1086).
-
-Since this is a physical card, it has to have a PIN associated. We can do this after obtaining the **s2cCardId**.
+When creating a physical card, we have to associate a PIN. We can do this after obtaining the **s2cCardId**.
 After the user provides the PIN, we need to request a new token to contact the external card provider's service. We then can use the token to create the PIN using the provider's service. Note that the cards service will never request or store the PIN directly, this is only allowed when using the external card provider's service directly.
 
 When the PIN is created on the external card provider's service, we have to tell the cards service that this operation was finished successfully. To do that, we can use the [/cards/{cardId}/!setPinOk](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1100) endpoint. <!-- TODO: this was refactored -->
 
 See the sequence diagram below:
-![Order physical card diagram](order_physical_card.png)
+![Setting the PIN on a physical card diagram](create_card_set_pin.png)
 
-#### Activating the physical card
+##### Activating the physical card
 
 After ordering a physical card, the user has the option to activate the card when the card was delivered to him.
 To do that we can use the [/cards/{cardId}/!activate](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#915) endpoint.
 
 ## View card details
 
-The cards service doesn't provide the security details (Full number PAN, CVV/CVC) directly, but we can get this values from the external card provider's service.
+The cards service doesn't provide the security details (Full card number, CVV/CVC) directly, but we can get these values from the external card provider's service.
 To do that we need to obtain a token for accessing the provider's service using the [/cards/!token](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#848) endpoint. We can then access the provider's service to obtain these details.
 
 ## Change physical card PIN
@@ -122,7 +128,7 @@ When the card has been frozen by the user, the user is allowed to unfreeze it. T
 
 ## Card limits and security
 
-### Security
+#### Security
 
 The user is able to enable or disable features that the card may support. The security options are defined below.
 
@@ -130,7 +136,7 @@ The user is able to enable or disable features that the card may support. The se
 
 To enable or disable e-commerce we can use the [/cards/{idCard}/!updateEcommerce](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1031) endpoint and pass in a boolean with the desired option.
 
-### Limits
+#### Limits
 
 The default card limits are defined at the card product level, which means all cards are issued with predefined limits.
 
