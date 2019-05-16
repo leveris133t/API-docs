@@ -46,11 +46,11 @@ Types of Payments:
 
 The **Deposit service** requires that the user has been onboarded, has a deposit product account and is logged in to the Internet Banking service.
 
-Certain operations like changing currency components or creating transactions can only be made when deposit product is in `ACTIVE` state.
+Certain operations like changing currency components or creating transactions can only be made when the deposit product is in `ACTIVE` state.
 
 - [Deposit Product](#deposit-product)
     - [Exchange money](#exchange-money)
-    - [Share](#share)
+    - [Share account information](#share-account-information)
 - [Managing currency components](#managing-currency-components)
     - [Change primary currency](#managing-currency-components)
     - [Activate/deactivate components](#managing-currency-components)
@@ -66,25 +66,31 @@ Certain operations like changing currency components or creating transactions ca
     - [Authorising a payment](#authorising-a-payment)
 
 ### Deposit Product
-To obtain the detail of a deposit product we can call [/{idProduct}](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1441). Response contains such detail as the name, currency components, holders and aggregated balance etc.
+To obtain the details of a deposit product, we can call [/{idProduct}](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1441). The response contains details such as the name, currency components, holders, aggregated balance etc.
+
+We can also get balances for each currency component with [/{idProduct}/!getBalance].
 
 ##### Exchange money
 To exchange money between currency components call [/currency-exchanges](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/endpoint/#1724).
 
-##### Share
+##### Share account information
 To send user account information via email call [/!emailAccountInfo](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1658).
 
 ### Managing currency components
 A user can manage the currency components of a deposit product by updating the primary currency or activating/deactivating currency components.
 
 ##### Change primary currency
-To change the primary currency component call [/{idProduct}/currencyPriorities](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1838).
+To change the primary currency component call [/{idProduct}/currencyPriorities](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1838). The desired primary current should have the highest prioirity.
 
 ##### Activate/deactivate components
-A currency component can be activated by calling [/{idProduct}/!activateCurrency](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1877), and deactivated by calling [/{idProduct}/!deactivateCurrency](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1898). A currency component **must** be empty to to deactivate it.
+A currency component can be activated by calling [/{idProduct}/!activateCurrency](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1877), and deactivated by calling [/{idProduct}/!deactivateCurrency](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1898). 
+
+In order to deactivate a currency component, it **must** have zero balance and not be the primary currency.
+
+The ability to activate or deactivate currency components also depends on the configuration of the specific deposit product.
 
 ### Transactions
-Users can retrieve list of *RequiredTransaction's* or *ProcessedTransaction's*. Either can be filtered by updating the [TransactionListRequest](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/#docs/type/#974) object
+Users can retrieve a list of *RequiredTransaction's* or *ProcessedTransaction's*. Either can be filtered by updating the [TransactionListRequest](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/#docs/type/#974) object.
 
 Only *RequiredTransaction*'s can be updated. To update see [/required-transactions/{idTransaction}](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1533).
 
@@ -96,7 +102,7 @@ Use the [/required-transactions/!search](https://doc.ffc.internal/book/mw-ib/mw-
 Use the [/transactions/!search](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1547) endpoint to obtain the list of *id*'s followed by the [/transactions/!batchGet](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1561) call to obtain the detail.
 
 ### Payments
-For each payment type the customer can retrieve a summary containing the sum and count and a list of payments.
+For each payment type the customer can retrieve a summary containing the aggregated sum, count and a list of payments.
 
 ##### Unauthorized Payments
 To retrieve a summary of all *unauthorized payments* call [/!getUnauthorizedPaymentsSummary](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1639).
@@ -120,18 +126,23 @@ To retrieve a list of all the *deferred payments*, we can call the [/!search](ht
 A *deferred payment* can be cancelled by calling the [/!cancel](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1525) endpoint.
 
 ##### Create internal payment
-An Internal payment can be created by calling the [/!createInternalCreditTransfer](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1748). The amount and the recipients account number must be provided.
+An Internal payment can be created by calling the [/!createInternalCreditTransfer](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1748). The amount and the recipient's internal account number must be provided.
 
 ##### Create external payment
-1. Retrieve PaymentForm entity. Lists all payment attributes based on payment method. Each attribute has name and for example information about his validation (optional or mandatory, maximal length etc.).
-2. Determines input data for making the payment order corresponds with the PaymentForm entity returned in the first step. If everything is alright, payment order is created.
+
+To create an external payment, we must:
+
+1. **Retrieve the PaymentForm entity**. This lists all key-value attributes required to complete the order e.g. amount, account number, country etc. Each attribute has a name as well as some validation rules (e.g. optional or mandatory, maximum length etc.). The attributes returned are based on the payment method.
+2. **Capture the attributes from the front-end application** and send to the server for processing.
+
+If everything is alright, payment order is created.
 ![creating_external_payment](create_payment_sequence.png)
 
 ##### Authorising a payment
 Unauthorized payments can be authorised using the [Auth service](https://doc.ffc.internal/book/mw-ib/mw-gen-auth-ib.html).
-1. Customer attempts to approve a payment by calling the [/!approve](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1595) endpoint. Authorization is required if response status code is `418`. Response contains auth scenarios i.e `PWD`, `SMS`, `PWD_SMS` etc.
-2. Kick of the [Auth service](https://doc.ffc.internal/book/mw-ib/mw-gen-auth-ib.html). Response will contain steps to be carried out for given auth scenario.
-3. Validate steps.
-4. Call [/!approve](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1595) endpoint again to complete authorization.  
+1. Customer attempts to approve a payment by calling the [/!approve](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1595) endpoint. Authorization is required if the response status code is `418`. The response will contain auth scenarios (`PWD`, `SMS`, `PWD_SMS` etc.) where one of which must be satisfied
+2. Kick of the [Auth service](https://doc.ffc.internal/book/mw-ib/mw-gen-auth-ib.html). The response will contain the steps to be carried out for given auth scenario.
+3. Validate the steps.
+4. Call the [/!approve](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html#docs/method/#1595) endpoint again to complete authorization.  
 
 ![authorising_payment](auth_payment_sequence.png)
