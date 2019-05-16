@@ -50,7 +50,7 @@ Each card has an associated status. From this, we can determine what to communic
 
 ![State diagram for the card statuses](card_statuses.png)
 
-Note that after performing an action that can update the status ([activate](#activating-the-physical-card), [freeze](#freeze), etc), the actual status of the card may take a while to update. For these cases, it's recommended to use polling until the status has been updated to the expected status.
+Note that after performing an action that can update the status ([activate](#activating-the-card-physical-cards-only), [freeze](#freeze), etc), the actual status of the card may take a while to update. For these cases, it's recommended to use polling until the status has been updated to the expected status.
 
 ### Order a card
 
