@@ -31,12 +31,12 @@ Via the cards service, the user is able to:
 -   [Freeze/unfreeze the card](#freezeunfreeze-card)
 -   [Manage security settings](#manage-security-settings)
 -   [Manage limits](#manage-limits)
--   [Cancel the card](#cancel-card)
+-   [Cancel the card](#cancel-the-card)
 
 For physical cards, the users of the cards service can also:
 
--   [Change the PIN (physical cards only)](#change-the-pin-physicalcardsonly)
--   [Report the card as lost, stolen or detained (physical cards only)](#report-the-card-as-lost-stolen-or-detained-physicalcardsonly)
+-   [Change the PIN (physical cards only)](#change-the-pin-physical-cards-only)
+-   [Report the card as lost, stolen or detained (physical cards only)](#report-the-card-as-lost-stolen-or-detained-physical-cards-only)
 
 ### Card statuses
 
