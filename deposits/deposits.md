@@ -16,8 +16,8 @@ The service allows a customer to retrieve and search all their transactions. The
 The platform supports *automatic currency conversion* with incoming/outgoing transactions. This can occur when an account has insufficient funds when making an outgoing payment, or an incoming payment is in a currency that is not supported by that account. Thus, a single transaction can contain multiple sub currency conversions and fees.
 
 As a result, there are two types of transactions:
-- `RequiredTransaction`: Represents the “primary transaction” being carried out. Includes fees and any necessary auto conversions between currency components to satisfy a payment order. A required transaction can contain multiple *transactions(processedTransactions)*.
-- `Transaction(processedTransaction)`: Represents a single transaction i.e a currency conversion or fee. For every transaction there is one *RequiredTransaction*.
+- **RequiredTransaction**: Represents the “primary transaction” being carried out. Includes fees and any necessary auto conversions between currency components to satisfy a payment order. A required transaction can contain multiple *transactions(processedTransactions)*.
+- **Transaction(processedTransaction)**: Represents a single transaction i.e a currency conversion or fee. For every transaction there is one *RequiredTransaction*.
 
 Transaction statuses:
 - `RESERVED`: transaction reserved by a card processor.
@@ -30,13 +30,13 @@ Other meta data associated with a transaction i.e merchant name can be found in 
 #### Payments
 
 The service allows a customer to create payment orders internally and externally:
-- `Internal Payment`: Payment between two internal accounts on the platform.
-- `External Payment`: Payment from an internal account to an account on an external platform.
+- **Internal Payment**: Payment between two internal accounts on the platform.
+- **External Payment**: Payment from an internal account to an account on an external platform.
 
 Types of Payments:
-- `Unauthorized Payments`: External payments **must** be authorised by the customer. The customer can perform authorisation using the [Auth service](https://doc.ffc.internal/book/mw-ib/mw-gen-auth-ib.html).
-- `Upcoming Payments`: Any payment that is created with a future due date.
-- `Deferred Payments`: A payment that is blocked while being processed. This could be due to insufficient funds or a *block* on the account.
+- **Unauthorized Payments**: External payments **must** be authorised by the customer. The customer can perform authorisation using the [Auth service](https://doc.ffc.internal/book/mw-ib/mw-gen-auth-ib.html).
+- **Upcoming Payments**: Any payment that is created with a future due date.
+- **Deferred Payments**: A payment that is blocked while being processed. This could be due to insufficient funds or a *block* on the account.
 
 ##### Payment order flow example
 
@@ -57,13 +57,13 @@ Certain operations like changing currency components or creating transactions ca
 - [Transactions](#transactions)
     - [Required transactions](#transactions)
     - [Transactions](#transactions)
-- [Payments](#view-and-manage-payments)
-    - [Unauthorized payments](#view-and-manage-payments)
-    - [Upcoming payments](#view-and-manage-payments)
-    - [Deferred payments](#view-and-manage-payments)
+- [Payments](#payments)
+    - [Unauthorized payments](#unauthorized-payments)
+    - [Upcoming payments](#upcoming-payments)
+    - [Deferred payments](#deferred-payments)
     - [Create internal payment](#create-internal-payment)
     - [Create external payment](#create-external-payment)
-    - [Authorising a payment](#view-and-manage-payments)
+    - [Authorising a payment](#authorising-a-payment)
 
 ### Deposit Product
 To obtain the detail of a deposit product we can call [/{idProduct}](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1441). Response contains such detail as the name, currency components, holders and aggregated balance etc.
@@ -83,7 +83,7 @@ To change the primary currency component call [/{idProduct}/currencyPriorities](
 ##### Activate/deactivate components
 A currency component can be activated by calling [/{idProduct}/!activateCurrency](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1877), and deactivated by calling [/{idProduct}/!deactivateCurrency](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1898). A currency component **must** be empty to to deactivate it.
 
-## Transactions
+### Transactions
 Users can retrieve list of *RequiredTransaction's* or *ProcessedTransaction's*. Either can be filtered by updating the [TransactionListRequest](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/#docs/type/#974) object
 
 Only *RequiredTransaction*'s can be updated. To update see [/required-transactions/{idTransaction}](https://doc.ffc.internal/api/mw-gen-deposit-ib/deposit-ib/latest/#docs/method/#1533).
