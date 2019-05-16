@@ -50,7 +50,7 @@ Using the cards service the user is able to:
 -   [Create and order a card](#creatingordering-a-card)
     -   [Create cards](#creating-a-card)
     -   [Setting PIN for physical cards](#creating-a-pin-for-physical-card)
--   [View card details like its number, expiry date and CVV/CVC](#view-card-details)
+-   [View secure card details like its number and CVV/CVC](#view-secure-card-details)
 -   [Freeze/unfreeze the card](#freezeunfreeze-card)
 -   [Manage security and limits of card usage](#card-limits-and-security)
 -   [Cancel the card](#cancel-card)
@@ -95,9 +95,9 @@ See the sequence diagram below:
 After ordering a physical card, the user has the option to activate the card when the card was delivered to him.
 To do that we can use the [/cards/{cardId}/!activate](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#915) endpoint.
 
-## View card details
+## View secure card details
 
-The cards service doesn't provide the security details (Full card number, CVV/CVC) directly, but we can get these values from the external card provider's service.
+The cards service doesn't provide the secure details (Full card number, CVV/CVC) directly, but we can get these values from the external card provider's service.
 To do that we need to obtain a token for accessing the provider's service using the [/cards/!token](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#848) endpoint. We can then access the provider's service to obtain these details.
 
 ## Change physical card PIN
