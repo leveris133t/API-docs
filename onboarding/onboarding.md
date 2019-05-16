@@ -23,24 +23,17 @@ The process also:
 * Facilitates **Recapturing party data** in case a verification has failed
 * **Activate a user account** when the *`Party`* has sufficient detail. This allows the user to access further banking services
 
-**RADIM RADIM RADIM - TO CLEAR UP**
-
-Don't know what this is:
-* Defined *`Product applications`* and *`Pricing schemas`* are ready to be used and setup by the Customer.
-
-What does 'ready' mean in this case
-
-**RADIM RADIM RADIM**
-
 ## How to use the service
 
 Each onboarding process is comprised of a number of pre-defined steps called the *`Process definition`*.
 
 These steps can include:
-* **Form steps** to capture textual information from the user. This can include personal details, contact details, passwords etc. (type: `FORM`)
-* **Authentication steps** where contact details and some biometrics are verified (type: `AUTH`)
-* **Custom steps** which are used for more specific functionality e.g. KYC and AML processes (type: `CUSTOM`)
-* **Application steps** which are used to create products on behalf of the user (type: `APPLICATION`)
+* **Forms** to capture textual information from the user. This can include personal details, contact details, passwords etc.
+* **Authentication verification** where contact details and some biometrics are verified
+* **Product applications** which are used to create products on behalf of the user
+* **Other custom steps** which are used for more specific functionality e.g. KYC and AML processes
+
+The exact step types are described in the `currentStepDefinition.stepType` attribute of the `/processes/{idProcess}` endpoint in the [Onboarding API documentation](mw-gen-user-activation-ib/user-activation-public-ib/latest/).
 
 The **front-end application** must to follow the *`Process definition`* in order to complete the onboarding.
 
@@ -64,11 +57,11 @@ On occasion, `/processes/{idProcess}/!executeCurrentStep` will not need to be ca
 
 ### Handling the process steps
 
-#### Form steps
+#### Forms
 
 The information to capture is defined in *`currentStep.formProperties`*. It must be validated by the front-end and then submitted to `/processes/{idProcess}/!executeCurrentStep`.
 
-#### Auth steps
+#### Authentication verification
 
 Before this step can be executed, we typically have to follow this flow:
 1. Call `processes/{idProcess}/!startAuthSubprocess` to start the auth process. This will send a verification message in the case of SMS or email and return the identifier of the sub process (*`idAuthProcess`*)
@@ -76,20 +69,13 @@ Before this step can be executed, we typically have to follow this flow:
 
 ![How to complete an auth step](onboarding-auth-process.png)
 
-#### Custom steps
+#### Product applications
 
-The workflow for this step depends on the *`step.code`*.
+Based on the back-end configuration, the front-end application may have to create a certain type of default product (e.g. a current account) for the user. For further information please look at the [Product application service]().
 
-The codes can be:
-* **JUMIO** for the Jumio Proof of Identity service (see [documentation here](mw-gen-jumio-ib.html.md))
-* **JUMIO_POA** for the Jumio Proof of Address service (see [documentation here](mw-gen-jumio-ib.html.md))
-* **KYC** and **ADDRESS_APPROVAL**. These are waiting steps for the front-end while the back-end contacts 3rd parties. See [back-end notifications](#back-end-notifications)
-* **DEVICE_CREDENTIALS** for regitering a device. See the `Device setup` API as part of the onboarding documentation
-* **AGREEMENT** for terms and conditions
+#### Other custom steps
 
-#### Application steps
-
-Based on the back-end configuration, the front-end application may have to create a certain type of default product (e.g. a current account) for the user. For further information please look at the [deposit API](mw-gen-deposit-ib.html.md).
+The workflow for this step depends on the *`step.code`*. Please see the [Onboarding API documentation](mw-gen-user-activation-ib/user-activation-public-ib/latest/) for more details.
 
 ### User activation and public and private endpoints
 

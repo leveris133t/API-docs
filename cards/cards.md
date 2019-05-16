@@ -50,6 +50,7 @@ Using the cards service the user is able to:
 -   [Create and order a card](#creatingordering-a-card)
     -   [Create cards](#creating-a-card)
     -   [Setting PIN for physical cards](#creating-a-pin-for-physical-card)
+    -   [Activating a physical card](#activating-the-physical-card)
 -   [View secure card details like its number and CVV/CVC](#view-secure-card-details)
 -   [Freeze/unfreeze the card](#freezeunfreeze-card)
 -   [Manage security and limits of card usage](#card-limits-and-security)
@@ -57,7 +58,6 @@ Using the cards service the user is able to:
 
 For physical cards the user of the cards service can also:
 
--   [Activate the card](#activating-the-physical-card)
 -   [Change the PIN](#change-physical-card-pin)
 -   [Report the card as lost, stolen or detained (damaged or broken)](#report-physical-card)
 
@@ -85,12 +85,12 @@ See the sequence diagram below:
 When creating a physical card, we have to associate a PIN. We can do this after obtaining the **s2cCardId**.
 After the user provides the PIN, we need to request a new token to contact the external card provider's service. We then can use the token to create the PIN using the provider's service. Note that the cards service will never request or store the PIN directly, this is only allowed when using the external card provider's service directly.
 
-When the PIN is created on the external card provider's service, we have to tell the cards service that this operation was finished successfully. To do that, we can use the [/cards/{cardId}/!setPinOk](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1100) endpoint. <!-- TODO: this was refactored -->
+When the PIN is created on the external card provider's service, we have to tell the cards service that this operation was finished successfully. To do that, we can use the [/cards/{cardId}/!updatePinFlag](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#1100) endpoint.
 
 See the sequence diagram below:
 ![Setting the PIN on a physical card diagram](create_card_set_pin.png)
 
-##### Activating the physical card
+#### Activating the physical card
 
 After ordering a physical card, the user has the option to activate the card when the card was delivered to him.
 To do that we can use the [/cards/{cardId}/!activate](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/#docs/method/#915) endpoint.
@@ -130,7 +130,7 @@ When the card has been frozen by the user, the user is allowed to unfreeze it. T
 
 #### Security
 
-The user is able to enable or disable features that the card may support. The security options are defined below.
+The user is able to enable or disable security features that the card may support e.g. contacless payments, magstripe payments etc.
 
 ###### Enable e-commerce
 
