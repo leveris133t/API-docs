@@ -7,13 +7,13 @@ The cards service lets users create, activate and manage their card(s).
 Ultimately the cards service is responsible for:
 * **Creating cards** and other associated activities e.g. setting the delivery address, activating the card and setting the PIN
 * **Managing security settings** e.g. the types of transactions allowed and limit management
-* **Managing the card lifecycle** e.g. Reporting cards lost or stolen, freezing/unfreezing and card cancellation
+* **Managing the card lifecycle** e.g. reporting cards lost or stolen, freezing/unfreezing and card cancellation
 * **Managing card attributes** such as the PIN value
 
 ## Glossary
 
-* **Virtual cards**: Virtual cards are the most basic representation of a card with a card number, expiry date and CVV/CVC. They can be used for e-commerce transactions and, when supported, with NFC (Near-Field-Communication) capable smartphones
-* **Physical cards**: Physical cards have an associated plastic card which can be used at ATMs and POS's (Points of Sale). Every physical card must be created by an external card provider and subsequently delivered to the user by post or handed over in a physical branch
+* **Virtual cards**: Virtual cards are the most basic representation of a card with a card number, expiry date and CVV/CVC. They can be used for e-commerce transactions and, when supported, with NFC (Near-Field-Communication) capable smartphones.
+* **Physical cards**: Physical cards have an associated plastic card which can be used at ATMs and POS's (Points of Sale). Every physical card must be created by an external card provider and subsequently delivered to the user by post or handed over in a physical branch.
 
 ## How to use the service
 
@@ -41,7 +41,7 @@ For physical cards, the users of the cards service can also:
 
 ### Card statuses
 
-Each card has an associated status. From this, we can determine what to communicate to the user and what actions the user is able to perform. For the exact description of the statuses please see the flow chart below or the `status` attribute of the `Card` entity in the [API documentation](https://doc.ffc.internal/api/mw-gen-payment-card-ib/payment-card-ib/latest/).
+Each card has an associated status. From this, we can determine what to communicate to the user and what actions the user is able to perform. For the exact description of the statuses please see the flow chart below or the `status` attribute of the `card` entity in `/cards/{idCard}` endpoint.
 
 ![State diagram for the card statuses](card_statuses.png)
 
@@ -53,7 +53,7 @@ Note that after performing an action that can update the status ([activate](#act
 
 To create a virtual card or to order a physical card the user needs to indicate which account the card will be associated with. To get the list of accounts we can use the `/accounts/!list` endpoint.
 
-The user also needs to choose one of the available card products. The card product technology type defines which type of card will be created: `virtual` for virtual cards and `contactless` for physical cards. To get the list of available card products we can use the `/products/!list` endpoint.
+The user also needs to choose one of the available card products. The card product technology type defines which type of card will be created: *`virtual`* for virtual cards and *`contactless`* for physical cards. To get the list of available card products we can use the `/products/!list` endpoint.
 
 When ordering a physical card, the user has the option to provide a delivery address. If not provided, the service will use the address registered during the onboarding process. To get the list of available delivery addresses we can use the `/delivery-addresses/!list` endpoint.
 
@@ -63,7 +63,7 @@ When ordering a physical card, the user has the option to provide a delivery add
 
 We can use the `/cards/!create` endpoint passing the required `accountNumber` and `productName`. If creating a physical card, we have the option to specify the `deliveryAddress`.
 
-After creating, we need to contact our external card provider to obtain **their** identifier of the card in **their** service, the `s2cCardId`. To do that we need to use the **externalCustomerId** to get a token, through the `/cards/!token` endpoint, so we can get the list of cards registered in the provider's service. We then use this list to find the card with the same **externalCardId** and get its **s2cCardId**. We then need to register this with the cards service through the `/cards/{cardId}/!setS2cCardId` endpoint.
+After creating, we need to contact our external card provider to obtain **their** identifier of the card in **their** service, the `s2cCardId`. To do that we need to use the `externalCustomerId` to get a token, through the `/cards/!token` endpoint, so we can get the list of cards registered in the provider's service. We then use this list to find the card with the same `externalCardId` and get its `s2cCardId`. We then need to register this with the cards service through the `/cards/{cardId}/!setS2cCardId` endpoint.
 
 See the sequence diagram below:
 ![Create card diagram](create_card_create.png)
@@ -84,7 +84,7 @@ After ordering a physical card, the user has the option to activate the card whe
 
 ### View secure card details
 
-The cards service doesn't provide the secure details (Full card PAN number, CVV/CVC) directly. However, we can get these values from the external card provider's service.
+The cards service doesn't provide the secure details (full card PAN number, CVV/CVC) directly. However, we can get these values from the external card provider's service.
 To do that, we need to obtain a token for accessing the provider's service using the `/cards/!token` endpoint. We can then access the provider's service as planned.
 
 ### Freeze/unfreeze card
@@ -120,19 +120,19 @@ There are two types of limits supported:
 * **Permanent limits**: All cards carry a default limit which can be modified, this is the permanent limit
 * **Temporary**: A temporary limit will stay valid until a certain provided date, afterwhich, the limit will fall back to the permanent limit
 
-##### Changing limits
+#### Changing limits
 
 To change the permanent limit(s) we can use the `/cards/{cardId}/!setPermanentLimits` endpoint. 
 
 To create temporary limit(s) we can use the `/cards/{cardId}/!setTemporaryLimits` endpoint.
 
-To remove a temporary limit(s) we can use the `/cards/{cardId}/!setTemporaryLimits` endpoint. Specifically, we must create an array of temporary limits that we will later pass to the endpoint. On the limit we intent to remove, we must remove the limit's `value` and `validTo` attributes. This endpoint can change multiple limits at the same time.
+To remove a temporary limit(s) we can use the `/cards/{cardId}/!setTemporaryLimits` endpoint. Specifically, we must create an array of temporary limits that we will later pass to the endpoint. On the limit we intent to remove, we must remove the limit's `value` and `validTo` attributes.
 
 These endpoint can change multiple limits at the same time.
 
 ### Cancel the card
 
-If the user wants to cancel the card, we can use the `[/cards/{cardId}/!cancel` endpoint.
+If the user wants to cancel the card, we can use the `/cards/{cardId}/!cancel` endpoint.
 
 Note that this action can't be reverted and the user will not be able to use the card thereafter.
 
