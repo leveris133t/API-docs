@@ -57,7 +57,7 @@ Once the application has fulfilled the requirements of the current step, call: `
 
 This will return the next onboarding step or notify the consumer application that the process is complete.
 
-On occasion, `/processes/{idProcess}/!executeCurrentStep` will not need to be called. This happens as the execution has been performed by the server. This depends on the specific step type.
+On occasion, `/processes/{idProcess}/!executeCurrentStep` will not need to be called. This happens as the execution has been performed by the server. This depends on the specific step type. For more information see the `stepType` attribute in the [Onboarding - public API](mw-gen-user-activation-ib/user-activation-public-ib/latest/).
 
 ![How to use the service](onboarding-how-to-use-the-service.png)
 
@@ -67,7 +67,7 @@ On occasion, `/processes/{idProcess}/!executeCurrentStep` will not need to be ca
 
 The information to capture is defined in *`currentStep.formProperties`*. It must be validated by the consumer application and then submitted to `/processes/{idProcess}/!executeCurrentStep`.
 
-#### Authentication verification
+#### Contact detail verification
 
 Before this step can be executed, we typically have to follow this flow:
 1. Call `/processes/{idProcess}/!startAuthSubprocess` to start the auth process. This will send a verification message in the case of SMS or email and return the identifier of the sub process (*`idAuthProcess`*)
@@ -87,11 +87,11 @@ The workflow for this step depends on the *`step.code`*. Please see the [Onboard
 
 When the onboarding process is started, the user's account will be created, but not activated.
 
-As such, **the user will not have** an *`Authentication token`* to be able to log into the application.
+As such, **the user will not have** a *`JWT access token`* to be able to log into the application.
 
-Activation will occur when the *`Authentication token`* is returned in a call to `/processes/{idProcess}/!executeCurrentStep`.
+Activation will occur when the *`JWT access token`* is returned in a call to `/processes/{idProcess}/!executeCurrentStep`.
 
-Prior to this, all URLs must use the `/public/` endpoints from the [Onboarding - public API](mw-gen-user-activation-ib/user-activation-public-ib/latest/). Afterwards, all URLs must use the `/private/` endpoints from the [Onboarding - private API](mw-gen-user-activation-ib/user-activation-private-ib/latest/) and pass in the *`Authentication token`* in the headers.
+Prior to this, all URLs must use the `/public/` endpoints from the [Onboarding - public API](mw-gen-user-activation-ib/user-activation-public-ib/latest/). Afterwards, all URLs must use the `/private/` endpoints from the [Onboarding - private API](mw-gen-user-activation-ib/user-activation-private-ib/latest/) and pass in the *`JWT access token`* in the headers.
 
 The account can be activated by the server at any stage after the user's authentication credentials are captured. This stage can be configured on the system.
 
@@ -107,7 +107,7 @@ When either of the above happens, an `IB_ONBOARDING_PROCESS_CHANGED` event is se
 
 As the back-end processes the submitted onboarding data, various checks will occur.
 
-When a check fails, the back-end will require further information from the user. This is done by creating a separate process such that the original onboarding process remains unchanged. This can only occur after the *`Authentication token`* has been issued.
+When a check fails, the back-end will require further information from the user. This is done by creating a separate process such that the original onboarding process remains unchanged. This can only occur after the *`JWT access token`* has been issued.
 
 To get the list of processes, call `/processes/!list` in the [Onboarding - private API](mw-gen-user-activation-ib/user-activation-private-ib/latest/). Each process has a defined `priority` attribute which determines which process to complete first. The lowest `priority` value should be completed first i.e. 0 is more important than 1.
 
