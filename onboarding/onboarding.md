@@ -13,7 +13,7 @@ The user activation service is responsible for:
 When the onboarding starts, a *`Party`* object for that user is created. As the onboarding progresses, more and more customer data will be added to the *`Party`* object.
 
 The *`Party`* object will ultimately contain, or have relations to:
-* **Basic user data** e.g. First name, surname
+* **Customer profile data** e.g. First name, surname
 * **Contact details** e.g. Email, phone number
 * **Customer consents** to satisfy compliance requirements
 * **Identity and address documentation** for verification purposes. The details of these documents are automatically extracted by the system and stored
@@ -33,27 +33,29 @@ Each onboarding process is comprised of a number of pre-defined steps called the
 
 These steps can include:
 * **Forms** to capture textual information from the user. This can include personal details, contact details, passwords etc.
-* **Authentication verification** where contact details and some biometrics are verified
-* **Product applications** which are used to create products on behalf of the user
+* **Contact detail verification** where email and phone numbers are verified
+* **Product applications** which can either create products on behalf of the user or let users to select products for themselves
 * **Other custom steps** which are used for more specific functionality e.g. KYC and AML processes
 
 The exact step types are described in the `currentStepDefinition.stepType` attribute of the `/processes/{idProcess}` endpoint in the [Onboarding - public API](mw-gen-user-activation-ib/user-activation-public-ib/latest/) documentation.
 
-The **front-end application** must to follow the *`Process definition`* in order to complete the onboarding.
+The **consumer application** must to follow the *`Process definition`* in order to complete the onboarding.
 
-The *`Process definition`* can also depend on the type of **front-end application** (web or mobile) that the onboarding is started from.
+The *`Process definition`* can also depend on the type of **consumer application** (web or mobile) that the onboarding is started from.
 
 ### Starting the onboarding process
 
-1. Call `/processes/!startProcess` in the [Onboarding - public API](mw-gen-user-activation-ib/user-activation-public-ib/latest/) to create a new onboarding process. This will return the id of the new process
-2. Call `/processes/{idProcess}` in the [Onboarding - public API](mw-gen-user-activation-ib/user-activation-public-ib/latest/) to get the full details of the current onboarding step
-3. Optionally call `/process-definitions/{idProcessDefinition}` in the [Onboarding - public API](mw-gen-user-activation-ib/user-activation-public-ib/latest/) to get the full list of steps (*`Process definition`*)
+The calls below should be made via the [Onboarding - public API](mw-gen-user-activation-ib/user-activation-public-ib/latest/).
+
+1. Call `/public/processes/!startProcess` to create a new onboarding process. This will return the id of the new process
+2. Call `/public/processes/{idProcess}` to get the full details of the current onboarding step
+3. Optionally call `/public/process-definitions/{idProcessDefinition}` to get the full list of steps (*`Process definition`*)
 
 ### Advancing to the next onboarding step
 
 Once the application has fulfilled the requirements of the current step, call: `/processes/{idProcess}/!executeCurrentStep` to move to the next step.
 
-This will return the next onboarding step or notify the front-end that the process is complete.
+This will return the next onboarding step or notify the consumer application that the process is complete.
 
 On occasion, `/processes/{idProcess}/!executeCurrentStep` will not need to be called. This happens as the execution has been performed by the server. This depends on the specific step type.
 
@@ -63,7 +65,7 @@ On occasion, `/processes/{idProcess}/!executeCurrentStep` will not need to be ca
 
 #### Forms
 
-The information to capture is defined in *`currentStep.formProperties`*. It must be validated by the front-end and then submitted to `/processes/{idProcess}/!executeCurrentStep`.
+The information to capture is defined in *`currentStep.formProperties`*. It must be validated by the consumer application and then submitted to `/processes/{idProcess}/!executeCurrentStep`.
 
 #### Authentication verification
 
@@ -75,7 +77,7 @@ Before this step can be executed, we typically have to follow this flow:
 
 #### Product applications
 
-Based on the back-end configuration, the front-end application may have to create a certain type of default product (e.g. a current account) for the user. For further information please look at the [Product application service]().
+Based on the back-end configuration, the consumer application may have to create a certain type of default product (e.g. a current account) for the user. For further information please look at the [Product application service]().
 
 #### Other custom steps
 
@@ -95,7 +97,7 @@ The account can be activated by the server at any stage after the user's authent
 
 ### Back-end notifications
 
-At some stage in the process, the back-end may need to notify the front-end about either:
+At some stage in the process, the back-end may need to notify the consumer application about either:
 * A **change in the onboarding process** e.g. the current process on the back-end has completed or
 * A **new complementary process** has been created by the back-end
 
@@ -109,6 +111,6 @@ When a check fails, the back-end will require further information from the user.
 
 To get the list of processes, call `/processes/!list` in the [Onboarding - private API](mw-gen-user-activation-ib/user-activation-private-ib/latest/). Each process has a defined `priority` attribute which determines which process to complete first. The lowest `priority` value should be completed first i.e. 0 is more important than 1.
 
-We recommend that the front-end calls `/processes/!list` in the [Onboarding - private API](mw-gen-user-activation-ib/user-activation-private-ib/latest/):
+We recommend that the consumer application calls `/processes/!list` in the [Onboarding - private API](mw-gen-user-activation-ib/user-activation-private-ib/latest/):
 * When a **back-end notification** comes through
 * After **login** (see [Router](mw-gen-router-ib.md))
