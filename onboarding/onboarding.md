@@ -1,19 +1,23 @@
 # IB User Activation
 
-The **user activation service** is responsible for creating a customer account, configuring their profile and activating them on the system.
-
-This is also known as the **onboarding service**.
+The **user activation service** allows customers to onboard. It is also known as the **onboarding service**.
 
 ## Responsibilities of the service
 
-The ultimate responsibility is to create a *`Party`* object on the system. When the onboarding starts, the *`Party`* object for that user is created. As the onboarding progresses, more and more customer data will be added to the *`Party`* object.
+The user activation service is responsible for:
+* Creating a customer's **user account**
+* **Configuring their profile**
+* **Activating them** on the system
+* **Creating the Party object** on the system (see below)
+
+When the onboarding starts, a *`Party`* object for that user is created. As the onboarding progresses, more and more customer data will be added to the *`Party`* object.
 
 The *`Party`* object will ultimately contain, or have relations to:
 * **Basic user data** e.g. First name, surname
 * **Contact details** e.g. Email, phone number
 * **Customer consents** to satisfy compliance requirements
-* **Security details** for authentication purposes. This includes passwords, device credentials and biometrics
 * **Identity and address documentation** for verification purposes. The details of these documents are automatically extracted by the system and stored
+* **User account** This includes security details for authentication purposes i.e. passwords, device credentials, biometrics etc.
 
 Based on the **Party** data collected, the onboarding process will verify:
 * **Contact details** on the email addresses and phone numbers captured and
