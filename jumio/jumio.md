@@ -2,6 +2,11 @@
 
 The **jumio service** is responsible for verifing the user´s identity, verifying their address and extracting information from the uploaded files.
 
+The [Jumio](https://github.com/Jumio/implementation-guides) frameworks are:
+
+* **Netverify** for proof of identity and data extraction
+* **Document verification** for proof of address and data extraction
+
 ## Responsibilities of the service
 
 The ultimate responsilibity of the service is to verify idenfication and address documents.
@@ -68,9 +73,3 @@ When the framework has finished, the app will get a `scanReference` that must be
 
 ![Handling jumio on mobile](jumio-handling-on-web.png)
 
-### Frameworks
-
-The [Jumio](https://github.com/Jumio/implementation-guides) frameworks are:
-
-* **Netverify** for proof of identity and data extraction
-* **Document verification** for proof of address and data extraction
