@@ -1,6 +1,6 @@
 # IB JUMIO
 
-The **jumio service** is responsible for verifing the user´s identity, verifying their address and extracting information from the uploaded files.
+The **Jumio service** is responsible for verifing the user´s identity, verifying their address and extracting information from the uploaded files.
 
 The [Jumio](https://github.com/Jumio/implementation-guides) frameworks are:
 
@@ -9,16 +9,17 @@ The [Jumio](https://github.com/Jumio/implementation-guides) frameworks are:
 
 ## Responsibilities of the service
 
-The ultimate responsilibity of the service is to verify idenfication and address documents.
+The ultimate responsilibity of the service is to capture identity and address documentation from the user.
 
 It does this by supporting:
-* **Document upload** from the user e.g. identity and address documents
-* **Data extraction** from the uploaded documents and
-* **Document verification**
+* **Document upload** from the user e.g. identity and address documents and
+* **Document validation** of those documents
+
+**Document verification** and **Data extraction** on the uploads is performed directly by the Jumio service.
 
 ## How to use the service
 
-The Jumio service is typically kicked off by the [onboarding process](onboarding.md).
+The Jumio service is kicked off by the [onboarding process](onboarding.md) when a `CUSTOM` step with the `stepCode` `JUMIO` or `JUMIO_POA` is encountered. See the [Onboarding - private API](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib/user-activation-private-ib/latest/index.html) documentation for more details.
 
 The entire workflow of processing a document or verification is called a **scan transaction**.
 
