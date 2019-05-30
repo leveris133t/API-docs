@@ -1,10 +1,13 @@
 # IB Deposits
 
-The **deposit service** is responsible for allowing a user to view and manage their deposit product accounts and create payments.
+## Responsibilities of the service
+
+- User can view and manage their deposit product.
+- Manage currency components.
+- User can view and manage their transactions.
+- Ability to create internal and external payment orders.
 
 ## Overview
-
-All endpoints for this service are available in the [Deposits API](https://doc.ffc.internal/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/index.html) documentation.
 
 ### Deposit Product Account
 A `deposit product` is created during the onboarding process (see [user activation service](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib.html)). Its parameters are set according to deposit product `type` selected by the user when created. A client can have more then one deposit product.
@@ -18,7 +21,7 @@ The service allows a customer to retrieve and search all their transactions. The
 The platform supports *automatic currency conversion* with incoming/outgoing transactions. This can occur when an account has insufficient funds when making an outgoing payment, or an incoming payment is in a currency that is not supported by that account. Thus, a single transaction can contain multiple sub currency conversions and fees.
 
 As a result, there are two types of transactions:
-- **RequiredTransaction**: Represents the “primary transaction” being carried out. Includes fees and any necessary auto conversions between currency components to satisfy a payment order. A required transaction can contain multiple *transactions(processedTransactions)*.
+- **RequiredTransaction**: Represents the "payment order" being carried out. Includes fees and any necessary auto conversions between currency components to satisfy a payment order. A required transaction can contain multiple *transactions(processedTransactions)*.
 - **Transaction(processedTransaction)**: Represents a single transaction i.e a currency conversion or fee. For every transaction there is one *RequiredTransaction*.
 
 Transaction statuses:
@@ -31,18 +34,14 @@ Other meta data associated with a transaction i.e merchant name can be found in 
 
 ### Payments
 
-The service allows a customer to create payment orders internally and externally:
+The service allows customer to create internal or external payment orders
 - **Internal Payment**: Payment between two internal accounts on the platform.
-- **External Payment**: Payment from an internal account to an account on an external platform.
+- **External Payment**: Payment from an internal account to an account in another financial institution.
 
 Types of Payments:
 - **Unauthorized Payments**: External payments **must** be authorised by the customer. The customer can perform authorisation using the [Auth service](https://doc.ffc.internal/book/mw-ib/mw-gen-auth-ib.html).
 - **Upcoming Payments**: Any payment that is created with a future due date.
 - **Deferred Payments**: A payment that is blocked while being processed. This could be due to insufficient funds or a *block* on the account.
-
-#### Payment order flow example
-
-![](payment_order_flow.png)
 
 ## How to use the service
 
@@ -51,6 +50,7 @@ The **Deposit service** requires that the user has been onboarded, has a deposit
 Certain operations like changing currency components or creating transactions can only be made when the deposit product is in `ACTIVE` state.
 
 - [Deposit Product](#deposit-product)
+    - [Get balance](#get-deposit-balance)  
     - [Exchange money](#exchange-money)
     - [Share account information](#share-account-information)
 - [Managing currency components](#managing-currency-components)
@@ -68,24 +68,24 @@ Certain operations like changing currency components or creating transactions ca
     - [Authorising a payment](#authorising-a-payment)
 
 ### Deposit Product
-To obtain the details of a deposit product, we can call `/{idProduct}`. The response contains details such as the name, currency components, holders, aggregated balance etc.
 
-We can also get balances for each currency component with `/{idProduct}/!getBalance`.
+#### Get deposit balance
+Retrieve balance for each currency component by calling `/deposit-products/{idProduct}/!getBalance`.
 
 #### Exchange money
-To exchange money between currency components call `/currency-exchanges`.
+To exchange money between currency components call `/deposit-products/{idProduct}/currency-exchanges`.
 
 #### Share account information
-To send user account information via email call `/!emailAccountInfo`.
+To send user account information via email call `/deposit-products/{idProduct}/!emailAccountInfo`.
 
 #### Managing currency components
 A user can manage the currency components of a deposit product by updating the primary currency or activating/deactivating currency components.
 
 #### Change primary currency
-To change the primary currency component call `/{idProduct}/currencyPriorities`. The desired primary current should have the highest priority.
+To change the primary currency component call `/deposit-products/{idProduct}/currencyPriorities`. The desired primary current should have the highest priority.
 
 #### Activate/deactivate components
-A currency component can be activated by calling `/{idProduct}/!activateCurrency` and deactivated by calling `/{idProduct}/!deactivateCurrency`.
+A currency component can be activated by calling `/deposit-products/{idProduct}/!activateCurrency` and deactivated by calling `/deposit-products/{idProduct}/!deactivateCurrency`.
 
 In order to deactivate a currency component, it **must** have zero balance and not be the primary currency.
 
@@ -94,7 +94,7 @@ The ability to activate or deactivate currency components also depends on the co
 ### Transactions
 Users can retrieve a list of `RequiredTransactions` or `ProcessedTransactions`. Either can be filtered by updating the `TransactionListRequest` object.
 
-Only `RequiredTransactions` can be updated. To update see `/required-transactions/{idTransaction}`.
+Only `RequiredTransactions` can be updated. Call `/deposit-products/{idProduct}/!deactivateCurrency` endpoint to update.
 
 #### RequiredTransaction's
 
@@ -104,31 +104,22 @@ Use the `/required-transactions/!search` endpoint to obtain the list of `ids` fo
 Use the `/transactions/!search` endpoint to obtain the list of `ids` followed by the `/transactions/!batchGet` endpoint to obtain the detail.
 
 ### Payments
-For each payment type the customer can retrieve a summary containing the aggregated sum, count and a list of payments.
 
 #### Unauthorized Payments
-To retrieve a summary of all `unauthorized payments` call `/!getUnauthorizedPaymentsSummary`.
-
-To retrieve a list of all the `unauthorized payments`, we can call the `/!search` endpoint to obtain the list of `ids` followed by the `/!batchGet` call to obtain the payment detail.
+To retrieve a summary of all `unauthorized payments` call `/deposit-products/{idProduct}/!getUnauthorizedPaymentsSummary`.
 
 #### Upcoming Payments
-To retrieve a summary of all `upcoming payments` call `/!getUpcomingSummary`.
+To retrieve a summary of all `upcoming payments` call `/deposit-products/{idProduct}/!getUpcomingSummary`.
 
-To retrieve a list of all the `upcoming payments`, we can call the `/!search` call to obtain the payment detail.
-
-An `upcoming payment` can be cancelled by calling the `/!cancel` endpoint.
+An `upcoming payment` can be cancelled by calling the `/deposit-products/{idProduct}/upcoming-payments/{idPayment}/!cancel` endpoint.
 
 #### Deferred Payments
-To retrieve a summary of all `deferred payments` call `/!getDeferredSummary`.
+To retrieve a summary of all `deferred payments` call `/deposit-products/{idProduct}/!getUpcomingSummary`.
 
-To retrieve a list of all the `deferred payments`, we can call the `/!search` endpoint to obtain the list of *id*'s followed by the `/!batchGet` call to obtain the payment detail.
-
-`Deferred` payment detail can be obtained by calling the `/deferred-transactions/{idTransaction}` endpoint.
-
-A `deferred payment` can be cancelled by calling the `/!cancel` endpoint.
+A `deferred payment` can be cancelled by calling the `/deposit-products/{idProduct}/deferred-transactions/{idTransaction}/!cancelPayment` endpoint.
 
 #### Create internal payment
-An Internal payment can be created by calling the `/!createInternalCreditTransfer`. The amount and the recipient's internal account number must be provided.
+An Internal payment can be created by calling `/deposit-products/{idProduct}/!createInternalCreditTransfer`. The amount, currency code and the recipient's internal account number must be provided.
 
 #### Create external payment
 
@@ -142,9 +133,9 @@ If everything is alright, the payment order is created.
 
 #### Authorising a payment
 Unauthorized payments can be authorised using the [Auth service](https://doc.ffc.internal/book/mw-ib/mw-gen-auth-ib.html).
-1. Customer attempts to approve a payment by calling the `/!approve` endpoint. Authorization is required if the response status code is `418`. The response will contain auth scenarios such as `PWD`, `SMS`, `PWD_SMS` etc. One of scenarios must be satisfied before authorisation can occur.
+1. Customer attempts to approve a payment by calling the `/deposit-products/{idProduct}/unauthorized-payments/{idPayment}/!approve` endpoint. Authorization is required if the response status code is `418`. The response will contain auth scenarios such as `PWD`, `SMS`, `PWD_SMS` etc. One of scenarios must be satisfied before authorisation can occur.
 2. Kick of the [Auth service](https://doc.ffc.internal/book/mw-ib/mw-gen-auth-ib.html). The response will contain the steps to be carried out for the given auth scenario.
 3. Validate the steps.
-4. Call the `/!approve` endpoint again to complete the authorization.  
+4. Call the `/deposit-products/{idProduct}/unauthorized-payments/{idPayment}/!approve` endpoint again to complete the authorization.  
 
 ![authorising_payment](auth_payment_sequence.png)
