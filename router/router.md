@@ -33,7 +33,10 @@ This values will have a predefined *expired date*.
 The calls below should be made via the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/index.html).
 
 1. Call the `/getLoginScenario` to get the scenarios to follow. Each scenario is comprised of a number of pre-defined steps
+
 2. Pick a scenario depending on the requisities eg: user and password, user and biometrics
+
+
 3. Call the `/validateLoginStep` to validate each step of the scenario. This endpoint will return:
   * The next step if the process is not completed
   * The `JWT` and `SSID` values when the process was finished
