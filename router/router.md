@@ -14,17 +14,18 @@ The router service is responsible for:
 
 ## How to use the service
 
-- [Loging in the user](#loging-in-the-user)
-- [Using the JWT and SSID](#using-the-jwt-and-ssid)
-- [Prolonging the JWT](#prolonging-the-jwt)
-- [Reseting the forgotten password](#reseting-the-forgotten-password)
-- [Loging out](#loging-out)
+* [Loging in the user](#loging-in-the-user)
+* [Using the JWT and SSID](#using-the-jwt-and-ssid)
+* [Prolonging the JWT](#prolonging-the-jwt)
+* [Reseting the forgotten password](#reseting-the-forgotten-password)
+* [Loging out](#loging-out)
+* [Reseting one time passwords](#reseting-one-time-passwords)
 
 ### Loging in the user
 
 This process will **authenticate the user** getting their:
-- Access token `JWT`
-- Session `SSID`
+* Access token `JWT`
+* Session `SSID`
 
 This values will have a predefined *expired date*.
 
@@ -34,8 +35,8 @@ The calls below should be made via the [Login - public API](https://doc.ffc.inte
 1. Call the `/getLoginScenario` to get the scenarios to follow. Each scenario is comprised of a number of pre-defined steps
 2. Pick a scenario depending on the requisities eg: user and password, user and biometrics
 3. Call the `/validateLoginStep` to validate each step of the scenario. This endpoint will return:
-  - The next step if the process is not completed
-  - The `JWT` and `SSID` values when the process was finished
+  * The next step if the process is not completed
+  * The `JWT` and `SSID` values when the process was finished
 
 ![Loging in the user](loging-in-the-user.png)
 
@@ -45,8 +46,8 @@ The calls below should be made via the [Login - public API](https://doc.ffc.inte
 `JWT` and `SSID` should be sent within the header of all requests where the API is protected (endpoints with `private` [security type](https://doc.ffc.internal/book/mw-ib/_common/urlStructure-ib.html)).
 
 The way to build the header will be for each case:
-- `JWT`. Use the **key** `Authorization` and the **value** `Bearer ` plus the *JWT value*
-- `SSID`. Use the **key** `ssid` and the **value** *UUID value*
+* `JWT`. Use the **key** `Authorization` and the **value** `Bearer ` plus *JWT value*
+* `SSID`. Use the **key** `ssid` and the **value** *UUID value*
 
 Example:
 
@@ -61,6 +62,13 @@ The `JWT` access token can be prolonged until the session `SSID` is expired. Whe
 
 ### Reseting the forgotten password
 
+1. Call `/getUnlockScenario` in [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to get the scenarios to follow to reset the password. Pick one depending on your requirements.
+
+2. Call `/validateUnlockStep` in [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to validate each step of the scenario. Repeat this call until you get the `AuthenticationStepResult.result == "FINISH"`. While the `AuthenticationStepResult.result == "NEXT_STEP"`, you will get the `AuthenticationStepResult.NextStep to do.
+
+3. Call the `\unlock` within the [Login - private API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-private-ib/latest/) to set the new password. The response of the request will be the new `TokensForAuthentication`.
+
+![Loging in the user](reseting-the-forgotten-password.png)
 
 ### Logging out
 
@@ -71,6 +79,3 @@ Close the session with the call `/log out` within the [Logout API](https://doc.f
 During the [authentication process](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib.html#contact-detail-verification) of the email or phone number, the user can required new values with the call `/sendOTP` in the [Resend OTP API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-otp-public-ib/latest/).
 
 This call is preconfigurated with special protection to prevent abuse, such as reCaptcha or invocation limit.
-
-//Reviews:
-- Login: This service is responsible for a User authentication using the Party’s User account established during Onboarding process.
