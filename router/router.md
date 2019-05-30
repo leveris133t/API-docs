@@ -38,6 +38,7 @@ The calls below should be made via the [Login - public API](https://doc.ffc.inte
 
 
 3. Call the `/validateLoginStep` to validate each step of the scenario. This endpoint will return:
+
   * The next step if the process is not completed
   * The `JWT` and `SSID` values when the process was finished
 
