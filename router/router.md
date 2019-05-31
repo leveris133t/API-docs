@@ -17,13 +17,13 @@ The router service is responsible for:
 * [Logging the user in](#logging-the-user-in)
 * [Using the JWT and SSID](#using-the-jwt-and-ssid)
 * [Prolonging the JWT](#prolonging-the-jwt)
-* [Reseting the forgotten password](#reseting-the-forgotten-password)
+* [Reseting a password](#reseting-a-password)
 * [Loging out](#loging-out)
 * [Reseting one time passwords](#reseting-one-time-passwords)
 
 ### Logging the user in
 
-This process will **authenticate the user** getting their:
+This process will **authenticate the user** and return their:
 * Access token (`JWT`) and
 * Session identifier (`SSID`)
 
@@ -57,26 +57,26 @@ Example:
 
 ### Prolonging the JWT
 
-The `JWT` access token can be prologed by calling `/prolong` within the [Access token API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-token-private-ib/latest/).
+The `JWT` access token can be prologed by calling `/prolong` in the [Access token API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-token-private-ib/latest/).
 
-The `JWT` access token can be prolonged until the session `SSID` is expired. When the `SSID` has expired, the User has to log in again. This `SSID` validation is done to avoid an infinite refresh of the `JWT` access token.
+The `JWT` access token can be prolonged until the session `SSID` is expired. When the `SSID` has expired, the User must log in again. This `SSID` validation is done to avoid an indefinite refresh of the `JWT` access token.
 
 ### Reseting a password
 
-1. Call `/getUnlockScenario` in [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to get the scenarios to follow to reset the password. Pick one depending on your requirements.
+1. Call `/getUnlockScenario` in the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to get the scenarios to follow to reset the password. Pick one depending on your requirements.
 
-2. Call `/validateUnlockStep` in [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to validate each step of the scenario. Repeat this call until you get the `AuthenticationStepResult.result == "FINISH"`. While the `AuthenticationStepResult.result == "NEXT_STEP"`, you will get the `AuthenticationStepResult.NextStep to do.
+2. Call `/validateUnlockStep` in the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to validate each step of the scenario. Repeat this call until you get the `AuthenticationStepResult.result == "FINISH"`. While the `AuthenticationStepResult.result == "NEXT_STEP"`, keep following and validating the steps.
 
-3. Call the `\unlock` within the [Login - private API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-private-ib/latest/) to set the new password. The response of the request will be the new `TokensForAuthentication`.
+3. Call `/unlock` in the [Login - private API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-private-ib/latest/) to set the new password. The response of the request will be the new `TokensForAuthentication`.
 
 ![Loging in the user](reseting-the-forgotten-password.png)
 
 ### Logging out
 
-Close the session with the call `/log out` within the [Logout API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-logout-private-ib/latest/index.html). This call will invalidate the JWT access token.
+Close the session with a call to `/log out` in the [Logout API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-logout-private-ib/latest/index.html). This call will invalidate the JWT access token.
 
 ### Reseting one time passwords
 
-During the [authentication process](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib.html#contact-detail-verification) of the email or phone number, the user can required new values with the call `/sendOTP` in the [Resend OTP API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-otp-public-ib/latest/).
+During the email or phone number [authentication process](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib.html#contact-detail-verification), the user may need to send additional OTPs (one time passwords). This can be done with a call to `/sendOTP` in the [Resend OTP API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-otp-public-ib/latest/).
 
-This call is preconfigurated with special protection to prevent abuse, such as reCaptcha or invocation limit.
+This call is preconfigurated with special protection to prevent abuse, such as a reCaptcha or an invocation limit.
