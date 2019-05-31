@@ -30,7 +30,7 @@ This process will **authenticate the user** getting their:
 This values will have a predefined *expired date*.
 
 
-The calls below should be made via the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/index.html).
+The calls below should be made through the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/index.html):
 
 1. Call the `/getLoginScenario` to get the scenarios to follow. Each scenario is comprised of a number of pre-defined steps
 
