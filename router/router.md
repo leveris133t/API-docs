@@ -6,10 +6,10 @@ This service performs user authentication and others supporting functions.
 
 The router service is responsible for:
 
-* **Loging the user in** to authenticate them and return their session
-* **Prologing session tokens** if required
+* **Logging the user in** to authenticate them and return their session
+* **Prolonging session tokens** if required
 * **Resetting a password** if forgotten
-* **Loging the user out**
+* **Logging the user out**
 * **Resending the authentication password (OTP)** for the email and SMS
 
 ## How to use the service
@@ -18,7 +18,7 @@ The router service is responsible for:
 * [Using the JWT and SSID](#using-the-jwt-and-ssid)
 * [Prolonging the JWT](#prolonging-the-jwt)
 * [Reseting a password](#reseting-a-password)
-* [Loging out](#loging-out)
+* [Logging out](#logging-out)
 * [Reseting one time passwords](#reseting-one-time-passwords)
 
 ### Logging the user in
