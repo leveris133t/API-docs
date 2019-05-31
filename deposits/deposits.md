@@ -18,7 +18,7 @@ There are 3 ways to use the service:
 * [How to manage transactions](#how-to-manage-transactions) and
 * [How to manage payments](#how-to-manage-payments)
 
-## How to manage Deposit Products
+### How to manage Deposit Products
 
 A `deposit product` is created during the onboarding process (see [user activation service](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib.html)). Its parameters are set depending on the deposit product `type` selected by the user at creation. A client can have multiple deposit products.
 
@@ -35,34 +35,40 @@ The following use cases are supported on a deposit product:
 - [Change primary currency](#change-primary-currency)
 - [Activate/deactivate currency components](#activate-deactivate-currency-components)
     
-### Get balances
+#### Get balances
 Retrieve the balance for each currency component by calling `/deposit-products/{idProduct}/!getBalance`.
 
-### Exchange money
+#### Exchange money
 To exchange money between currency components call `/deposit-products/{idProduct}/currency-exchanges`.
 
-### Share account information
+#### Share account information
 To send user account information via email call `/deposit-products/{idProduct}/!emailAccountInfo`.
 
-### Change primary currency
+#### Change primary currency
 To change the primary currency component call `/deposit-products/{idProduct}/currencyPriorities`. The desired primary current should have the highest priority.
 
-### Activate/deactivate currency components
+#### Activate/deactivate currency components
 A currency component can be activated by calling `/deposit-products/{idProduct}/!activateCurrency` and deactivated by calling `/deposit-products/{idProduct}/!deactivateCurrency`.
 
 In order to deactivate a currency component, it **must** have zero balance and not be the primary currency.
 
 The ability to activate or deactivate currency components also depends on the configuration of the specific deposit product.
 
-## How to manage Transactions
+### How to manage Transactions
 
 The service allows a customer to retrieve and search all their transactions. They also have the ability to update some transaction data i.e add a note etc.
 
-The platform supports *automatic currency conversion* with incoming/outgoing transactions. This can occur when an account has insufficient funds when making an outgoing payment, or an incoming payment is in a currency that is not supported by that account. Thus, a single transaction can contain multiple sub currency conversions and fees.
+The platform supports *automatic currency conversion* with incoming/outgoing transactions. 
+
+This can occur when an account has insufficient funds when:
+* Making an outgoing payment or 
+* An incoming payment is in a currency that is not supported by that account
+
+Thus, a single transaction can contain multiple sub currency conversions and fees.
 
 As a result, there are two types of transactions:
-- **RequiredTransaction**: Represents the "payment order" being carried out. Includes fees and any necessary auto conversions between currency components to satisfy a payment order. A required transaction can contain multiple *transactions(processedTransactions)*.
-- **Transaction(processedTransaction)**: Represents a single transaction i.e a currency conversion or fee. For every transaction there is one *RequiredTransaction*.
+- **RequiredTransaction**: Represents the "payment order" being carried out. Includes fees and any necessary auto conversions between currency components to satisfy a payment order. A required transaction can contain multiple *transactions(processedTransactions)*
+- **Transaction(processedTransaction)**: Represents a single transaction i.e a currency conversion or fee. For every transaction there is one *RequiredTransaction*
 
 Transaction statuses:
 - *`RESERVED`*: transaction reserved by a card processor.
@@ -75,19 +81,19 @@ The following transaction use cases are supported:
 - [Required transactions](#transactions)
 - [Transactions](#transactions)
 
-### Transactions
+#### Transactions
 Users can retrieve a list of `RequiredTransactions` or `ProcessedTransactions`. Either can be filtered by updating the `TransactionListRequest` object.
 
 Only `RequiredTransactions` can be updated. Call `/deposit-products/{idProduct}/!deactivateCurrency` endpoint to update.
 
-#### RequiredTransaction's
+##### RequiredTransaction's
 
 Use the `/required-transactions/!search` endpoint to obtain the list of `ids` followed by the `/required-transactions/!batchGet` endpoint to obtain the detail.
 
-#### ProcessedTransaction's
+##### ProcessedTransaction's
 Use the `/transactions/!search` endpoint to obtain the list of `ids` followed by the `/transactions/!batchGet` endpoint to obtain the detail.
 
-## How to manage Payments
+### How to manage Payments
 
 The service allows customer to create internal or external payment orders
 - **Internal Payment**: Payment between two internal accounts on the platform.
