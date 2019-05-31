@@ -27,7 +27,7 @@ This process will **authenticate the user** and return their:
 * Access token (`JWT`) and
 * Session identifier (`SSID`)
 
-These values have a predefined *expired date* when returned.
+These values have a predefined *expiry date* when returned.
 
 To log in, the calls below should be made through the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/index.html):
 
