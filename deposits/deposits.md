@@ -22,9 +22,9 @@ There are 3 ways to use the service:
 
 A `deposit product` is created during the onboarding process (see [user activation service](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib.html)). Its parameters are set depending on the deposit product `type` selected by the user at creation. A client can have multiple deposit products.
 
-An product can also have multiple currency components. One of these is designated as the *primary currency*. The aggregated balance of the account appears in this currency.
+A product can also have multiple currency components where one is designated the *primary currency*. The aggregated balance of the account appears in this currency.
 
-The customer can also change the *primary currency* and *activate/deactivate* currency components.
+The customer can also change the *primary currency* and *activate/deactivate* the various currency components.
 
 Note that certain operations (changing currency components, creating transactions) can only be made when the deposit product is in `ACTIVE` state.
 
