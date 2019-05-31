@@ -6,7 +6,7 @@ This service provides all information about a client's deposit products.
 
 Consumers of the service can:
 - **View and manage deposit products**
-- **View and manage transactions within deposit products
+- **View and manage transactions** within deposit products
 - **Create** internal and external **payment orders**
 
 ## How to use the service
