@@ -77,18 +77,18 @@ The following transaction use cases are supported:
 - [Getting processed transactions](#getting-processed-transactions)
 - [Managing transaction notes](#managing-transaction-notes)
 
-##### Getting required transactions
+#### Getting required transactions
 
 Use the `/required-transactions/!search` endpoint to obtain the list of required transactions where the `TransactionListRequest` object can be modified to control filtering.
 
 Detail of a required transaction can be obtained by calling `/required-transactions/{idRequiredTransaction}`.
 
-##### Getting processed transactions
+#### Getting processed transactions
 Use the `/transactions/!search` endpoint to obtain the list of processed transactions where the `TransactionListRequest` object can be modified to control filtering.
 
 Detail of a processed transaction cannot be obtained.
 
-##### Managing transaction notes
+#### Managing transaction notes
 Notes can be added or removed (to required transactions only) by calling `/required-transactions/{idRequiredTransaction}` using the PATCH method.
 
 ### How to manage Payments
