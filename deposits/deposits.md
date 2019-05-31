@@ -5,9 +5,9 @@ This service provides all information about a client's deposit products.
 ## Responsibilities of the service
 
 Consumers of the service can:
-- *View and manage [deposit products](#deposit products)*
-- *View and manage [transactions](#transactions)* within deposit products
-- *Create* internal and external *[payment orders](#payments)*
+- **View and manage [deposit products](#deposit products)**
+- **View and manage [transactions](#transactions)** within deposit products
+- **Create** internal and external **[payment orders](#payments)**
 
 ## Deposit Products
 A `deposit product` is created during the onboarding process (see [user activation service](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib.html)). Its parameters are set according to deposit product `type` selected by the user when created. A client can have more then one deposit product.
