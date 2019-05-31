@@ -73,20 +73,28 @@ As a result, there are two types of transactions:
 Other meta data associated with a transaction i.e merchant name can be found in the `extendedAttributes` property. List of all potential extendedAttributes can be found here `/transactions/!extendedAttributesDefinition`.
 
 The following transaction use cases are supported:
-- [Required transactions](#transactions)
-- [Transactions](#transactions)
+- [Getting required transactions](#getting-processed-transactions])
+- [Getting processed transactions](#getting-processed-transactions)
+- [Managing transaction notes](#managing-transaction-notes)
 
 #### Transactions
 Users can retrieve a list of `RequiredTransactions` or `ProcessedTransactions`. Either can be filtered by updating the `TransactionListRequest` object.
 
 Only `RequiredTransactions` can be updated. Call `/deposit-products/{idProduct}/!deactivateCurrency` endpoint to update.
 
-##### RequiredTransaction's
+##### Getting required transactions
 
-Use the `/required-transactions/!search` endpoint to obtain the list of `ids` followed by the `/required-transactions/!batchGet` endpoint to obtain the detail.
+Use the `/required-transactions/!search` endpoint to obtain the list required transactions.
 
-##### ProcessedTransaction's
-Use the `/transactions/!search` endpoint to obtain the list of `ids` followed by the `/transactions/!batchGet` endpoint to obtain the detail.
+Detail of a required transaction can be obtained by calling `/required-transactions/{idRequiredTransaction}`.
+
+##### Getting processed transactions
+Use the `/transactions/!search` endpoint to obtain the list of processed transactions.
+
+Detail of a processed transaction cannot be obtained.
+
+##### Managing transaction notes
+Notes can be added or removed (to required transactions only) by calling `/required-transactions/{idRequiredTransaction}` using the PATCH method.
 
 ### How to manage Payments
 
