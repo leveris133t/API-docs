@@ -7,7 +7,7 @@ This service performs user authentication and others supporting functions.
 The router service is responsible for:
 
 * **Loging the user in** to authenticate them and return their session
-* **Prologing the session** if required
+* **Prologing session tokens** if required
 * **Resetting a password** if forgotten
 * **Loging the user out**
 * **Resending the authentication password (OTP)** for the email and SMS
