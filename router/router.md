@@ -47,7 +47,7 @@ To log in, the calls below should be made through the [Login - public API](https
 The `JWT` and `SSID` should be sent in the header of all requests where the API is protected (endpoints with `private` [security type](https://doc.ffc.internal/book/mw-ib/_common/urlStructure-ib.html)).
 
 The request headers should include the following items:
-* `JWT`. Use the **key** `Authorization` and the **value** `Bearer ` plus *JWT value*
+* `JWT`. Use the **key** `Authorization` and the **value** `Bearer` plus *JWT value*
 * `SSID`. Use the **key** `ssid` and the **value** *UUID value*
 
 Example:
