@@ -70,11 +70,6 @@ As a result, there are two types of transactions:
 - **RequiredTransaction**: Represents the "payment order" being carried out. Includes fees and any necessary auto conversions between currency components to satisfy a payment order. A required transaction can contain multiple *transactions(processedTransactions)*
 - **Transaction(processedTransaction)**: Represents a single transaction i.e a currency conversion or fee. For every transaction there is one *RequiredTransaction*
 
-Transaction statuses:
-- *`RESERVED`*: transaction reserved by a card processor.
-- *`CANCELLED`*: transaction that has been revoked.
-- *`PROCESSED`*: transaction that has been successfully processed.
-
 Other meta data associated with a transaction i.e merchant name can be found in the `extendedAttributes` property. List of all potential extendedAttributes can be found here `/transactions/!extendedAttributesDefinition`.
 
 The following transaction use cases are supported:
