@@ -15,7 +15,7 @@ The **Deposit service** requires that the user has been onboarded and is logged 
 
 There are 3 ways to use the service:
 * [How to manage deposit products](#how-to-manage-deposit-products)
-* [How to manage transactions](#how-to-manage-transactions) and
+* [How to manage transactions](#how-to-manage-transactions)
 * [How to manage payments](#how-to-manage-payments)
 
 ### How to manage Deposit Products
@@ -77,19 +77,14 @@ The following transaction use cases are supported:
 - [Getting processed transactions](#getting-processed-transactions)
 - [Managing transaction notes](#managing-transaction-notes)
 
-#### Transactions
-Users can retrieve a list of `RequiredTransactions` or `ProcessedTransactions`. Either can be filtered by updating the `TransactionListRequest` object.
-
-Only `RequiredTransactions` can be updated. Call `/deposit-products/{idProduct}/!deactivateCurrency` endpoint to update.
-
 ##### Getting required transactions
 
-Use the `/required-transactions/!search` endpoint to obtain the list required transactions.
+Use the `/required-transactions/!search` endpoint to obtain the list of required transactions where the `TransactionListRequest` object can be modified to control filtering.
 
 Detail of a required transaction can be obtained by calling `/required-transactions/{idRequiredTransaction}`.
 
 ##### Getting processed transactions
-Use the `/transactions/!search` endpoint to obtain the list of processed transactions.
+Use the `/transactions/!search` endpoint to obtain the list of processed transactions where the `TransactionListRequest` object can be modified to control filtering.
 
 Detail of a processed transaction cannot be obtained.
 
@@ -108,22 +103,22 @@ Types of Payments:
 - **Deferred Payments**: A payment that is blocked while being processed. This could be due to insufficient funds or a *block* on the account.
 
 The following payments use cases are supported:
-- [Unauthorized payments](#unauthorized-payments)
-- [Upcoming payments](#upcoming-payments)
-- [Deferred payments](#deferred-payments)
+- [Get unauthorized payments](#get-unauthorized-payments)
+- [Get/manage upcoming payments](#get-manage-upcoming-payments)
+- [Get/manage deferred payments](#get-manage-deferred-payments)
 - [Create internal payment](#create-internal-payment)
 - [Create external payment](#create-external-payment)
 - [Authorising a payment](#authorising-a-payment)
 
-#### Unauthorized Payments
+#### Get unauthorized Payments
 To retrieve a summary of all `unauthorized payments` call `/deposit-products/{idProduct}/!getUnauthorizedPaymentsSummary`.
 
-#### Upcoming Payments
+#### Get/manage upcoming Payments
 To retrieve a summary of all `upcoming payments` call `/deposit-products/{idProduct}/!getUpcomingSummary`.
 
 An `upcoming payment` can be cancelled by calling the `/deposit-products/{idProduct}/upcoming-payments/{idPayment}/!cancel` endpoint.
 
-#### Deferred Payments
+#### Get/manage deferred Payments
 To retrieve a summary of all `deferred payments` call `/deposit-products/{idProduct}/!getUpcomingSummary`.
 
 A `deferred payment` can be cancelled by calling the `/deposit-products/{idProduct}/deferred-transactions/{idTransaction}/!cancelPayment` endpoint.
