@@ -1,20 +1,20 @@
 # IB Deposits
 
+This service provides all information about a client's deposit products.
+
 ## Responsibilities of the service
 
-- User can view and manage their deposit product.
-- Manage currency components.
-- User can view and manage their transactions.
-- Ability to create internal and external payment orders.
+Consumers of the service can:
+- *View and manage [deposit products](#deposit products)*
+- *View and manage [transactions](#transactions)* within deposit products
+- *Create* internal and external *[payment orders](#payments)*
 
-## Overview
-
-### Deposit Product Account
+## Deposit Products
 A `deposit product` is created during the onboarding process (see [user activation service](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib.html)). Its parameters are set according to deposit product `type` selected by the user when created. A client can have more then one deposit product.
 
-An account can have multiple currency components, where one is designated as the *primary currency*. The customer has the ability to *activate/deactivate* currency components and change *the primary currency*. The aggregated balance of the account will appear in the primary currency.
+An account can have multiple currency components, where one is designated as the *primary currency*. The customer has the ability to *activate/deactivate* currency components and change the *primary currency*. The aggregated balance of the account will appear in the primary currency.
 
-### Transactions
+## Transactions
 
 The service allows a customer to retrieve and search all their transactions. They also have the ability to update some transaction data i.e add a note etc.
 
@@ -32,7 +32,7 @@ Transaction statuses:
 
 Other meta data associated with a transaction i.e merchant name can be found in the `extendedAttributes` property. List of all potential extendedAttributes can be found here `/transactions/!extendedAttributesDefinition`.
 
-### Payments
+## Payments
 
 The service allows customer to create internal or external payment orders
 - **Internal Payment**: Payment between two internal accounts on the platform.
