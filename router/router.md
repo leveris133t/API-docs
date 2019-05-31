@@ -1,55 +1,52 @@
 # Router
 
-The **router service** allows users to handle their authentication and session.
+This service performs user authentication and others supporting functions.
 
 ## Responsibilities of the service
 
 The router service is responsible for:
 
-* **Loging in** the user to authenticate them and return their session
-* **Prologing the session** of the user
-* **Resetting the forgotten password**
-* **Loging out** the user
+* **Loging the user in** to authenticate them and return their session
+* **Prologing the session** if required
+* **Resetting a password** if forgotten
+* **Loging the user out**
 * **Resending the authentication password (OTP)** for the email and SMS
 
 ## How to use the service
 
-* [Loging in the user](#loging-in-the-user)
+* [Logging the user in](#logging-the-user-in)
 * [Using the JWT and SSID](#using-the-jwt-and-ssid)
 * [Prolonging the JWT](#prolonging-the-jwt)
 * [Reseting the forgotten password](#reseting-the-forgotten-password)
 * [Loging out](#loging-out)
 * [Reseting one time passwords](#reseting-one-time-passwords)
 
-### Loging in the user
+### Logging the user in
 
 This process will **authenticate the user** getting their:
-* Access token `JWT`
-* Session `SSID`
+* Access token (`JWT`) and
+* Session identifier (`SSID`)
 
-This values will have a predefined *expired date*.
+These values have a predefined *expired date* when returned.
 
+To log in, the calls below should be made through the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/index.html):
 
-The calls below should be made through the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/index.html):
+1. Call `/getLoginScenario` to get the scenarios to follow. Each scenario is comprised of a number of pre-defined steps. Steps include one or more security details such as user name, password, device identifier etc.
 
-1. Call the `/getLoginScenario` to get the scenarios to follow. Each scenario is comprised of a number of pre-defined steps
+2. Pick a scenario depending on the requirement eg: user and password, user and biometrics
 
-2. Pick a scenario depending on the requisities eg: user and password, user and biometrics
-
-
-3. Call the `/validateLoginStep` to validate each step of the scenario. This endpoint will return:
+3. Call `/validateLoginStep` to validate each step of the scenario. This endpoint will return:
 
   * The next step if the process is not completed
-  * The `JWT` and `SSID` values when the process was finished
+  * The `JWT` and `SSID` values when the process is complete
 
 ![Loging in the user](loging-in-the-user.png)
 
-
 ### Using the JWT and SSID
 
-`JWT` and `SSID` should be sent within the header of all requests where the API is protected (endpoints with `private` [security type](https://doc.ffc.internal/book/mw-ib/_common/urlStructure-ib.html)).
+The `JWT` and `SSID` should be sent in the header of all requests where the API is protected (endpoints with `private` [security type](https://doc.ffc.internal/book/mw-ib/_common/urlStructure-ib.html)).
 
-The way to build the header will be for each case:
+The request headers should include the following items:
 * `JWT`. Use the **key** `Authorization` and the **value** `Bearer ` plus *JWT value*
 * `SSID`. Use the **key** `ssid` and the **value** *UUID value*
 
@@ -60,11 +57,11 @@ Example:
 
 ### Prolonging the JWT
 
-The `JWT` access token can be prologed with the call `/prolong` within the [Access token API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-token-private-ib/latest/).
+The `JWT` access token can be prologed by calling `/prolong` within the [Access token API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-token-private-ib/latest/).
 
-The `JWT` access token can be prolonged until the session `SSID` is expired. When the `SSID` has expired, the User has to log in again. This `SSID` validation is done to avoid the indefinite refresh of the `JWT` access token.
+The `JWT` access token can be prolonged until the session `SSID` is expired. When the `SSID` has expired, the User has to log in again. This `SSID` validation is done to avoid an infinite refresh of the `JWT` access token.
 
-### Reseting the forgotten password
+### Reseting a password
 
 1. Call `/getUnlockScenario` in [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to get the scenarios to follow to reset the password. Pick one depending on your requirements.
 
