@@ -31,16 +31,16 @@ These values have a predefined *expiry date* when returned.
 
 To log in, the calls below should be made through the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/index.html):
 
-1. Call `/getLoginScenario` to get the scenarios to follow. Each scenario is comprised of a number of pre-defined steps. Steps include one or more security details such as user name, password, device identifier etc.
+1. Call `/authentication/getLoginScenario` to get the scenarios to follow. Each scenario is comprised of a number of pre-defined steps. Steps include one or more security details such as user name, password, device identifier etc.
 
 2. Pick a scenario depending on the requirement eg: user and password, user and biometrics
 
-3. Call `/validateLoginStep` to validate each step of the scenario. This endpoint will return:
+3. Call `/authentication/validateLoginStep` to validate each step of the scenario. This endpoint will return:
 
   * The next step if the process is not completed
   * The `JWT` and `SSID` values when the process is complete
 
-![Loging in the user](loging-in-the-user.png)
+![Loging the user in](loging-the-user-in.png)
 
 ### Using the JWT and SSID
 
@@ -57,23 +57,23 @@ Example:
 
 ### Prolonging the JWT
 
-The `JWT` access token can be prologed by calling `/prolong` in the [Access token API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-token-private-ib/latest/).
+The `JWT` access token can be prologed by calling `/token/prolong` in the [Access token API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-token-private-ib/latest/).
 
 The `JWT` access token can be prolonged until the session `SSID` is expired. When the `SSID` has expired, the User must log in again. This `SSID` validation is done to avoid an indefinite refresh of the `JWT` access token.
 
 ### Reseting a password
 
-1. Call `/getUnlockScenario` in the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to get the scenarios to follow to reset the password. Pick one depending on your requirements.
+1. Call `/authentication/getUnlockScenario` in the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to get the scenarios to follow to reset the password. Pick one depending on your requirements.
 
-2. Call `/validateUnlockStep` in the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to validate each step of the scenario. Repeat this call until you get the `AuthenticationStepResult.result == "FINISH"`. While the `AuthenticationStepResult.result == "NEXT_STEP"`, keep following and validating the steps.
+2. Call `/authentication/validateUnlockStep` in the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to validate each step of the scenario. Repeat this call until you get the `AuthenticationStepResult.result == "FINISH"`. While the `AuthenticationStepResult.result == "NEXT_STEP"`, keep following and validating the steps.
 
-3. Call `/unlock` in the [Login - private API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-private-ib/latest/) to set the new password. The response of the request will be the new `TokensForAuthentication`.
+3. Call `/authentication/unlock` in the [Login - private API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-private-ib/latest/) to set the new password. The response of the request will be the new `TokensForAuthentication`.
 
-![Loging in the user](reseting-the-forgotten-password.png)
+![Reseting a password](reseting-a-password.png)
 
 ### Logging out
 
-Close the session with a call to `/log out` in the [Logout API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-logout-private-ib/latest/index.html). This call will invalidate the JWT access token.
+Close the session with a call to `/logout` in the [Logout API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-logout-private-ib/latest/index.html). This call will invalidate the JWT access token.
 
 ### Reseting one time passwords
 
