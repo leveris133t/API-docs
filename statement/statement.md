@@ -1,12 +1,12 @@
 # Statement
 
-The **statement service** is responsable for configurating and generating a summary of the finantial transactions which have occurred in the user's bank account within a period of time.
+The **statement service** is responsible for configuring and generating a summary of the financial transactions which have occurred in the user's bank account within a period of time.
 
 ## Responsibilities of the service
 
 The statement service is responsible for:
 
-* **Configurating the regular statement generation** e.g. activation, frequency, delivery channel
+* **Configuring the regular statement generation** e.g. activation, frequency, delivery channel
 * **Providing the regular statement history**
 * **Generating on-demand statements**
 
@@ -23,12 +23,12 @@ The statement service requires that the user has been:
 
 All endpoints for this service are available within the [Statement API](https://doc.ffc.internal/book/mw-ib/mw-gen-statement-ib/statement-ib/latest/index.html).
 
-* [Configurating the regular statement generation](#configurating-the-regular-statement-generation)
+* [Configuring the regular statement generation](#configuring-the-regular-statement-generation)
 * [Providing the regular statement history](#providing-the-regular-statement-history)
 * [Generating on-demand statements](#generating-on-demand-statements)
 
 
-### Configurating the regular statement generation
+### Configuring the regular statement generation
 
 Each account has a **default configuration** for the regular statement based on attributes such as frequency or delivery channel. These attributes will indicate:
  * **When** the regular statement will be triggered and
@@ -47,6 +47,6 @@ Use the call **POST** `/statement/{list}` to get the full list of generated regu
 
 ### Generating on-demand statements
 
-Use the call **POST** `/statement/!generate`to request the generation of a statement within a time interval. This statement can be downloaded from the client's device.
+Use the call **POST** `/statement/!generate` to request the generation of a statement within a time interval. This statement can be downloaded from the client's device.
 
 The on-demand statements will not be saved on a history.

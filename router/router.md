@@ -17,9 +17,9 @@ The router service is responsible for:
 * [Logging the user in](#logging-the-user-in)
 * [Using the JWT and SSID](#using-the-jwt-and-ssid)
 * [Prolonging the JWT](#prolonging-the-jwt)
-* [Reseting a password](#reseting-a-password)
+* [Resetting a password](#reseting-a-password)
 * [Logging out](#logging-out)
-* [Reseting one time passwords](#reseting-one-time-passwords)
+* [Resetting one time passwords](#resetting-one-time-passwords)
 
 ### Logging the user in
 
@@ -57,11 +57,11 @@ Example:
 
 ### Prolonging the JWT
 
-The `JWT` access token can be prologed by calling `/token/prolong` in the [Access token API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-token-private-ib/latest/).
+The `JWT` access token can be prolonged by calling `/token/prolong` in the [Access token API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-token-private-ib/latest/).
 
 The `JWT` access token can be prolonged until the session `SSID` is expired. When the `SSID` has expired, the User must log in again. This `SSID` validation is done to avoid an indefinite refresh of the `JWT` access token.
 
-### Reseting a password
+### Resetting a password
 
 1. Call `/authentication/getUnlockScenario` in the [Login - public API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-login-public-ib/latest/) to get the scenarios to follow to reset the password. Pick one depending on your requirements.
 
@@ -75,8 +75,8 @@ The `JWT` access token can be prolonged until the session `SSID` is expired. Whe
 
 Close the session with a call to `/logout` in the [Logout API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-logout-private-ib/latest/index.html). This call will invalidate the JWT access token.
 
-### Reseting one time passwords
+### Resetting one time passwords
 
 During the email or phone number [authentication process](https://doc.ffc.internal/book/mw-ib/mw-gen-user-activation-ib.html#contact-detail-verification), the user may need to send additional OTPs (one time passwords). This can be done with a call to `/sendOTP` in the [Resend OTP API](https://doc.ffc.internal/book/mw-ib/mw-gen-router-ib/router-otp-public-ib/latest/).
 
-This call is preconfigurated with special protection to prevent abuse, such as a reCaptcha or an invocation limit.
+This call is preconfigured with special protection to prevent abuse, such as a reCaptcha or an invocation limit.
