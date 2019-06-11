@@ -42,7 +42,7 @@ Use **POST** `/settings/!list` to get the full list of regular statements of a u
 
 All the regular statement generated will be kept in a history. The user can get all of them and download them as many times as he wants.
 
-Use the call **POST** `/statement/{list}` to get the full list of generated regular statements.
+Use the call **POST** `/statement/{list}` to get the full list of generated regular statements. If you want to download a file of the previous list, take a look at the [Document Management System](https://doc.ffc.internal/book/mw-ib/mw-gen-dms-ib.html).
 
 
 ### Generating on-demand statements
