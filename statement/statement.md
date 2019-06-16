@@ -1,19 +1,19 @@
 # Statement
 
-The **statement service** is responsible for configuring and generating a summary of the financial transactions which have occurred in the user's bank account within a period of time.
+The **statement service** is responsible for configuring and generating a summary of all financial transactions which have occurred on a user's account for a given period of time.
 
 ## Responsibilities of the service
 
 The statement service is responsible for:
 
 * **Configuring the regular statement generation** e.g. activation, frequency, delivery channel
-* **Providing the regular statement history**
+* **Providing regular statement history**
 * **Generating on-demand statements**
 
 ## Glossary
 
-* **Regular statement**: Statement which is generated on a periodic basis. The generation is triggered by the system according to a pre-configured frequency
-* **On-demand statement**: Statement which is generated according to the request of a user based on a time interval e.g. Statement from *May 8, 2019* to *May 27, 2019*
+* **Regular statement**: Statements which are generated on a periodic basis. The generation is triggered by the system on a `Monthly`, `Quaterly` or `Yearly` basis.
+* **On-demand statement**: Statements that are generated on request by the user, for the given time period e.g. the user wants a Statement from *May 8, 2019* to *May 27, 2019* etc.
 
 ## How to use the service
 
@@ -30,23 +30,24 @@ All endpoints for this service are available within the [Statement API](https://
 
 ### Configuring the regular statement generation
 
-Each account has a **default configuration** for the regular statement based on attributes such as frequency or delivery channel. These attributes will indicate:
- * **When** the regular statement will be triggered and
+Each account has a statement **configuration**, where attributes such as `Frequency` and `Delivery Channel` can be configured. These attributes determine:
+ * **When** the regular statement will be generated and
  * **Where** the regular statement will be sent
 
-Call **GET** `/settings/{id}` to get the configuration of the regular statement or use **PATCH** `/settings/{id}` to update it.
+The user can also turn off regular statments altogether.
+ 
+Use **POST** `/settings/!list` to get the full list of statement settings.
 
-Use **POST** `/settings/!list` to get the full list of regular statements of a user based on a filter.
+Call **GET** `/settings/{id}` to get full setting detail or use **PATCH** `/settings/{id}` to update it.
 
 ### Providing the regular statement history
 
-All the regular statement generated will be kept in a history. The user can get all of them and download them as many times as he wants.
+All the regular statements are kept in history. A user can retrieve and download them as many times as they wish.
 
-Use the call **POST** `/statement/{list}` to get the full list of generated regular statements. If you want to download a file of the previous list, take a look at the [Document Management System](https://doc.ffc.internal/book/mw-ib/mw-gen-dms-ib.html).
-
+Use the call **POST** `/statement/{list}` to get the full list of regular statements. A statement can downloaded using the [Document Management System API](https://doc.ffc.internal/book/mw-ib/mw-gen-dms-ib.html).
 
 ### Generating on-demand statements
 
-Use the call **POST** `/statement/!generate` to request the generation of a statement within a time interval. This statement can be downloaded from the client's device.
+A user can generate a statement for a given time period by calling the  **POST** `/statement/!generate` endpoint.
 
-The on-demand statements will not be saved on a history.
+On-demand statements are saved to the user statements history.
