@@ -50,4 +50,4 @@ Use the call **POST** `/statement/{list}` to get the full list of regular statem
 
 A user can generate a statement for a given time period by calling the  **POST** `/statement/!generate` endpoint.
 
-On-demand statements are saved to the user statements history.
+On-demand statements are not saved to the user statements history.
