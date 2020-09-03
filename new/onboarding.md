@@ -67,7 +67,7 @@ The information to capture is defined in *`currentStep.formProperties`*. It must
 
 #### Contact detail verification
 
-Before this step can be executed, the user will receive an SMS or email with a code generated automatically by the system. This code should be used to verify the contact detail by calling `/processes/!verifyContact`. If no SMS or email has been generated, call `/processes/!resendVerification` to generated it manually. 
+Before this step can be executed, the user will receive an SMS or email with a code generated automatically by the system. This code should be used to verify the contact detail by calling `/processes/!verifyContact`. If no SMS or email has been generated, call `/processes/!resendVerification` to generated it manually.
 
 #### Product applications
 
@@ -75,7 +75,7 @@ Based on the back-end configuration, the consumer application may have to create
 
 #### Other custom steps
 
-The workflow for this step depends on the *`step.code`*. Please see the [Onboarding API documentation](mw-gen-user-activation-ib/user-activation-public-ib/latest/) for more details.
+The workflow for this step depends on the *`step.code`* and *`step.backendStep`*. Please see the [Onboarding API documentation](mw-gen-user-activation-ib/user-activation-public-ib/latest/) for more details.
 
 ### User activation and public and private endpoints
 
@@ -91,11 +91,16 @@ The account can be activated by the server at any stage after the user's authent
 
 ### Back-end notifications
 
-At some stage in the process, the back-end may need to notify the consumer application about either:
-* A **change in the onboarding process** e.g. the current process on the back-end has completed or
-* A **new complementary process** has been created by the back-end
+At some stage in the process, the back-end may need to notify the consumer application about updates sending events via socket:
 
-When either of the above happens, an `IB_ONBOARDING_PROCESS_CHANGED` event is served asynchronously via web socket. See [Asynchronous Communication service](mw-gen-asynccomm-ib.md) for more details.
+* `IB_ONBOARDING_PROCESS_CHANGED` event will be fired when
+** A **change in the onboarding process** e.g. the current process on the back-end has completed or
+** A **new complementary process** has been created by the back-end
+
+* `IB_ONBOARDING_PROCESS_CHANGED_STATUS` event notifying about a change on the onboarding application status as `REJECTED` or `FAILED`.
+
+See [Asynchronous Communication service](mw-gen-asynccomm-ib.md) for more details.
+
 
 ### New complementary processes
 
