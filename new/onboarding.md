@@ -67,11 +67,7 @@ The information to capture is defined in *`currentStep.formProperties`*. It must
 
 #### Contact detail verification
 
-Before this step can be executed, we typically have to follow this flow:
-1. Call `/processes/{idProcess}/!startAuthSubprocess` to start the auth process. This will send a verification message in the case of SMS or email and return the identifier of the sub process (*`idAuthProcess`*)
-2. Call `/processes/{idProcess}/auth-processes/{idAuthProcess}/!validateCurrentAuthSubprocessStep` with the SMS or email code to validate the auth process
-
-![How to complete an auth step](mw-gen-user-activation-ib/onboarding-auth-process.svg)
+Before this step can be executed, the user will receive an SMS or email with a code generated automatically by the system. This code should be used to verify the contact detail by calling `/processes/!verifyContact`. If no SMS or email has been generated, call `/processes/!resendVerification` to generated it manually. 
 
 #### Product applications
 
