@@ -22,7 +22,7 @@ This process will **authenticate the user** and return their access token (`JWT`
 
 To log in, follow this flow:
 
-1. Call the endpoint `session/sessions/!getLoginSession` through the [Session - public API](session/public-api) getting the status code `418` with the `idAuthProcess` in the response. This status code notifies us about starting a new AA flow.
+1. Call the endpoint `session/sessions/!getLoginSession` through the [Session - public API](session/public-api) getting the status code `418` with the `idAuthProcess` in the response. This status code notifies that a new AA flow should start.
 2. Complete AA flow according to [AA](aa.md).
 3. Call the endpoint `session/sessions/!getLoginSession` providing the `idAuthProcess` and using the [Session - public API](session/public-api). The endpont will return the `JWT` access token and its expiration date.
 
@@ -43,4 +43,4 @@ The `JWT` access token can be prolonged by calling `/session/sessions/!prolong` 
 
 ### Logging out
 
-Close the session calling the endpoint `/session/sessions/!logout` through the [Session - private API](session/private-api). This call will invalidate the JWT access token. 
+Close the session calling the endpoint `/session/sessions/!logout` through the [Session - private API](session/private-api). This call will invalidate the JWT access token.
