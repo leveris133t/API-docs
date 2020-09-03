@@ -93,11 +93,11 @@ The account can be activated by the server at any stage after the user's authent
 
 At some stage in the process, the back-end may need to notify the consumer application about updates sending events via socket:
 
-* `IB_ONBOARDING_PROCESS_CHANGED` event will be fired when
-** A **change in the onboarding process** e.g. the current process on the back-end has completed or
-** A **new complementary process** has been created by the back-end
+* `IB_ONBOARDING_PROCESS_CHANGED` event notifying:
+  * A **change in the onboarding process** e.g. the current process on the back-end has completed or
+  * A **new complementary process** has been created by the back-end
 
-* `IB_ONBOARDING_PROCESS_CHANGED_STATUS` event notifying about a change on the onboarding application status as `REJECTED` or `FAILED`.
+* `IB_ONBOARDING_PROCESS_CHANGED_STATUS` event alerting about a change on the onboarding application status as `REJECTED` or `FAILED`.
 
 See [Asynchronous Communication service](mw-gen-asynccomm-ib.md) for more details.
 
