@@ -3,8 +3,8 @@ The deposit service lets users view and manage their deposit product and related
 ## Responsibilities of the service
 
 - View [deposit product](#deposit-product) details i.e account status, currency components, balances and mandate holders.
-- Manage [deposit product](#deposit-product) i.e change account name, add/remove `currency components` and add/remove 'mandate holders' etc.
-- View [transactions](#transactions-and-required-transactions) i.e transaction status, debitor and remittance information etc.
+- Manage [deposit product](#deposit-product) i.e change account name, add/remove currency components and add/remove mandate holders etc.
+- View [transactions](#transactions-and-required-transactions) i.e transaction status, creditor and remittance information etc.
 - View [upcoming payments](#upcoming-payments) and [deferred payments](#deferred-payments) with option to cancel.
 - Create and [authorise payment orders](#authorization-of-payment-orders).
 - Create and manage [payee's](#payee-management).
@@ -144,7 +144,5 @@ Steps needed to create a new payee:
     * POST `/current-user-payees` in [Deposit API](/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/)
 
 Other supported operations:
-* Get a list of payees:
-    * POST `/current-user-payees/!list` in [Deposit API](/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/)
-Delete a payee:
-    * DELETE `/current-user-payees/{id}` in [Deposit API](/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/)
+* Get a list of payees using `/current-user-payees/!list` endpoint in [Deposit API](/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/)
+* Delete a payee using `/current-user-payees/{id}` endpoint in [Deposit API](/book/mw-ib/mw-gen-deposit-ib/deposit-ib/latest/)
