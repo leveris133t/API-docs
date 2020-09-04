@@ -9,6 +9,13 @@ The deposit service lets users view and manage their deposit product and related
 - Create and [authorise payment orders](#authorization-of-payment-orders).
 - Create and manage [payee's](#payee-management).
 
+
+## How to use the service
+
+The Deposit product service requires that the user has been:
+* **Onboarded** and is
+* **Logged in** to the Internet Banking service
+
 ## Deposit Product
 
 A deposit product is created during the onboarding process (see [User Activation](mw-gen-user-activation-ib.md) service).
