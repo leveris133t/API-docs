@@ -1,6 +1,6 @@
 # Rounding Up
 
-The Rounding Up services lets users manage the feature of round up payments into their saving goal.
+The Rounding Up services lets users top up their savings goal by rounding up any outgoing payments.
 
 ## Responsibilities of the service
 
