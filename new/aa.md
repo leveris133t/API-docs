@@ -13,8 +13,8 @@ The AA service is responsable for:
 ## How to use the service
 
 The AA flow can be required from the back-end in any request that returns the HTTP status code `418` to the consumer application. At that point, the consumer application has to choose the proper API depending on:
-* User wants to *log in* or *reset their password* use the [AA - public API](aa/public-api).
-* User *is logged in*. Use the [AA - private API](aa/private-api). In this case, the user is navigating across the app trying to perform any action that requires some authorization on their part as `making a payment`.
+* User wants to **log in** or **reset their password**,  use the [AA - public API](aa/public-api).
+* User **is logged in**, use the [AA - private API](aa/private-api). In this case, the user is navigating across the app trying to perform any action that requires some authorization on their part as `making a payment`.
 
 
 When a consumer application receives a notification to initiate an AA flow, it will commonly be said that a **Step-Up authentication** has been fired.
@@ -31,12 +31,12 @@ When the consumer application gets the previous status code calling a endpoint, 
 1. Get a list of the possible scenarios for a given *idAuthProcess* making a `POST` to the endpoint `/auth/auth-processes/{idAuthProcess}/scenarios/!list`.
 2. Pick a *scenarioCode* of the previous list and start the **Step-Up authentication process** for the selected scenario using a `POST` to the endpoint `/auth/auth-processes/{idAuthProcess}/!start`.
 3. Fill out all the requested information within the consumer application and send it making a `POST` to the endpoint `/auth/auth-processes/{idAuthProcess}/!verifyStep`.
-4. If the sent information is correct, the back-end will return the status `FINISHED`. If not, follow API documentation to further details.
-5. At this point, the **AA process** flow is completed. Then, the consumer application has to call again the endpoint that requires a *Step-Up authentication process* attaching the *idAuthProcess*. It will return the HTTP status code `200` and the desired information.
+4. If the sent information is correct, the back-end will return the status `FINISHED`. If not, follow API documentation for further details.
+5. At this point, the **AA process** flow is completed. Then, the consumer application has to call again the endpoint that requires a **Step-Up authentication process** attaching the *idAuthProcess*. It will return the HTTP status code `200` and the desired information this time.
 
 
 ### Requested data within the AA process
 
-Each AA process will be comprised of a number of steps that ask for user security details such as password, device ID, OTP, email, and so on. 
+Each **AA process** will be comprised of a number of steps that ask for user security details such as password, device ID, OTP, email, and so on.
 
-If a user does not have sufficient security details to complete the process, a 418 status code will be fired without the `idAuthProcess` field in the endpoint response. If this issue occurs, it should be handled by *Client customer support*.
+If a user does not have sufficient security details to complete the **AA process**, a 418 status code will be fired without the `idAuthProcess` field in the endpoint response. If this issue occurs, it should be handled by *Client customer support*.
