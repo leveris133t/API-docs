@@ -1,8 +1,10 @@
 ## Savings
 
 Each `DepositProduct` can have several associated `Saving` goals.
-A `Saving` facilitates a user to reach a target amount by providing the tools to fund, withdraw and follow the progress of it.
-To help even more the user to reach the target, recurring funding can be set up and a round up scheme can be placed in progress for a single `Saving`
+A `Saving` facilitates a user in reaching a target/goal amount.
+The user has the ability to fund the account, setup recurring funding and can avail of the rounding up scheme ([Rounding up service](roundingup.md)).
+The user can also withdraw funds at any time.
+
 
 Via the service a user is able to:
 
