@@ -18,13 +18,13 @@ The session service is responsible for:
 
 ### Logging the user in
 
-This process will **authenticate the user** and return their access token (`JWT`) with its expiration date.
+This process will **authenticate the user** and return their JWT access token with its expiration date.
 
 To log in, follow this flow:
 
 1. Call the endpoint `session/sessions/!getLoginSession` through the [Session - public API](session/public-api) getting the status code `418` with the `idAuthProcess` in the response. This status code notifies that a new AA flow should start.
 2. Complete AA flow according to [AA](aa.md).
-3. Call the endpoint `session/sessions/!getLoginSession` providing the `idAuthProcess` and using the [Session - public API](session/public-api). The endpont will return the `JWT` access token and its expiration date.
+3. Call the endpoint `session/sessions/!getLoginSession` providing the `idAuthProcess` and using the [Session - public API](session/public-api). The endpont will return the JWT access token and its expiration date.
 
 
 ### Using the JWT
@@ -39,7 +39,7 @@ Example:
 
 ### Prolonging the JWT
 
-The `JWT` access token can be prolonged by calling `/session/sessions/!prolong` through the [Session - private API](session/private-api) returning a new `JWT` token.
+The JWT access token can be prolonged by calling `/session/sessions/!prolong` through the [Session - private API](session/private-api) returning a new `JWT` token.
 
 ### Logging out
 
